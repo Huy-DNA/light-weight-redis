@@ -1,7 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Log from "../../logger";
+import Logger from "../../logger";
 import LogEntry from "../../logentry";
 export default class RPOPCommand extends Command {
   key: string;
@@ -15,7 +15,7 @@ export default class RPOPCommand extends Command {
     return new Result<string>(null, null);
   }
 
-  log(log: Log): LogEntry {
+  log(log: Logger): LogEntry {
     throw "Not implemented";
   }
 }
