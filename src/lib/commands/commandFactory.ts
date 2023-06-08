@@ -1,3 +1,4 @@
+import Result from "../result";
 import Command from "./command";
 
 export default class CommandFactory {
@@ -20,7 +21,7 @@ export default class CommandFactory {
     this.regex = regex;
   }
 
-  create(rawString: string): Command {
-    throw "Not implemented";
+  create(rawString: string): Result<Command> {
+    return Result.err("ERR not implemented");
   }
 }

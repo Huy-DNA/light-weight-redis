@@ -1,6 +1,6 @@
 import CommandFactory from "../commandFactory";
 import EXPIRECommand from "../commands_imp/EXPIRE";
-
+import Result from "../../result";
 export default class EXPIREFactory extends CommandFactory {
   constructor() {
     super(
@@ -15,14 +15,14 @@ export default class EXPIREFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): EXPIRECommand {
+  create(rawString: string): Result<EXPIRECommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key, seconds } = matchRes.groups!;
-      return new EXPIRECommand(key, Number(seconds));
+      return Result.ok(new EXPIRECommand(key, Number(seconds)));
     }
   }
 }

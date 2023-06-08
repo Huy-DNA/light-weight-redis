@@ -1,6 +1,6 @@
 import CommandFactory from "../commandFactory";
 import DELCommand from "../commands_imp/DEL";
-
+import Result from "../../result";
 export default class DELFactory extends CommandFactory {
   constructor() {
     super(
@@ -11,14 +11,14 @@ export default class DELFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): DELCommand {
+  create(rawString: string): Result<DELCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new DELCommand(key);
+      return Result.ok(new DELCommand(key));
     }
   }
 }

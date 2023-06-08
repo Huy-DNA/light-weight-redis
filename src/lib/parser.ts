@@ -16,6 +16,6 @@ export default class Parser {
     if (commandFactory === undefined) {
       return Result.err("ERR unknown command");
     }
-    return Result.ok(commandFactory.create(rawString));
+    return commandFactory.create(rawString);
   }
 }

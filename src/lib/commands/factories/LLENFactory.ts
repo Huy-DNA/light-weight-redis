@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import LLENCommand from "../commands_imp/LLEN";
+import Result from "../../result";
 
 export default class LLENFactory extends CommandFactory {
   constructor() {
@@ -14,14 +15,14 @@ export default class LLENFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): LLENCommand {
+  create(rawString: string): Result<LLENCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new LLENCommand(key);
+      return Result.ok(new LLENCommand(key));
     }
   }
 }

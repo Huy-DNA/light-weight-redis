@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import SETCommand from "../commands_imp/SET";
+import Result from "../../result";
 
 export default class SETFactory extends CommandFactory {
   constructor() {
@@ -15,14 +16,14 @@ export default class SETFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): SETCommand {
+  create(rawString: string): Result<SETCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key, value } = matchRes.groups!;
-      return new SETCommand(key, value);
+      return Result.ok(new SETCommand(key, value));
     }
   }
 }

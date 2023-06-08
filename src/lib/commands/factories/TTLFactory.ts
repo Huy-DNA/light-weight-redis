@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import TTLCommand from "../commands_imp/TTL";
+import Result from "../../result";
 
 export default class TTLFactory extends CommandFactory {
   constructor() {
@@ -11,14 +12,14 @@ export default class TTLFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): TTLCommand {
+  create(rawString: string): Result<TTLCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new TTLCommand(key);
+      return Result.ok(new TTLCommand(key));
     }
   }
 }

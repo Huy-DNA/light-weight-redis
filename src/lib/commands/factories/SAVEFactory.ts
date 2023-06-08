@@ -1,18 +1,19 @@
 import CommandFactory from "../commandFactory";
 import SAVECommand from "../commands_imp/SAVE";
+import Result from "../../result";
 
 export default class SAVEFactory extends CommandFactory {
   constructor() {
     super("SAVE", [], [], new RegExp(`^\\s*SAVE\\s*$`));
   }
 
-  create(rawString: string): SAVECommand {
+  create(rawString: string): Result<SAVECommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
-      return new SAVECommand();
+      return Result.ok(new SAVECommand());
     }
   }
 }

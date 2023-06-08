@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import GETCommand from "../commands_imp/GET";
+import Result from "../../result";
 
 export default class GETFactory extends CommandFactory {
   constructor() {
@@ -11,14 +12,14 @@ export default class GETFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): GETCommand {
+  create(rawString: string): Result<GETCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new GETCommand(key);
+      return Result.ok(new GETCommand(key));
     }
   }
 }

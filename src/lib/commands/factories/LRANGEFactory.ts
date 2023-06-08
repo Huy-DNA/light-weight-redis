@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import LRANGECommand from "../commands_imp/LRANGE";
+import Result from "../../result";
 
 export default class LRANGEFactory extends CommandFactory {
   constructor() {
@@ -14,14 +15,14 @@ export default class LRANGEFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): LRANGECommand {
+  create(rawString: string): Result<LRANGECommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key, start, stop } = matchRes.groups!;
-      return new LRANGECommand(key, Number(start), Number(stop));
+      return Result.ok(new LRANGECommand(key, Number(start), Number(stop)));
     }
   }
 }

@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import RPOPCommand from "../commands_imp/RPOP";
+import Result from "../../result";
 
 export default class RPOPFactory extends CommandFactory {
   constructor() {
@@ -14,14 +15,14 @@ export default class RPOPFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): RPOPCommand {
+  create(rawString: string): Result<RPOPCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new RPOPCommand(key);
+      return Result.ok(new RPOPCommand(key));
     }
   }
 }

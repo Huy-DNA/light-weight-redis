@@ -1,5 +1,6 @@
 import CommandFactory from "../commandFactory";
 import LPOPCommand from "../commands_imp/LPOP";
+import Result from "../../result";
 
 export default class LPOPFactory extends CommandFactory {
   constructor() {
@@ -14,14 +15,14 @@ export default class LPOPFactory extends CommandFactory {
     );
   }
 
-  create(rawString: string): LPOPCommand {
+  create(rawString: string): Result<LPOPCommand> {
     const matchRes = rawString.match(this.regex);
 
     if (matchRes === null) {
-      throw "ERR invalid arguments";
+      return Result.err("ERR invalid arguments");
     } else {
       const { key } = matchRes.groups!;
-      return new LPOPCommand(key);
+      return Result.ok(new LPOPCommand(key));
     }
   }
 }
