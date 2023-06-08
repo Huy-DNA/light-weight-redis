@@ -44,6 +44,10 @@ export default class CircularQueue<T> {
     return Result.ok(this.#buffer[phyIndex]);
   }
 
+  length(): number {
+    return this.#size;
+  }
+
   #expand() {
     const tempBuffer = [];
     for (let i = 0; i < this.#size; ++i) {
