@@ -12,6 +12,10 @@ export default class GETCommand extends Command {
   }
 
   execute(store: Store): Result<string> {
-    return new Result<string>(null, null);
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (res.value === null) return Result.ok<string>(null);
+    if (typeof res.value === "string") return Result.ok(res.value);
+    return Result.err("ERR type error");
   }
 }

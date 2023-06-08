@@ -5,6 +5,7 @@ import Logger from "../../logger";
 import LogEntry from "../../logentry";
 export default class SAVECommand extends Command {
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    store.snap();
+    return Result.ok(1);
   }
 }

@@ -5,6 +5,6 @@ import Logger from "../../logger";
 import LogEntry from "../../logentry";
 export default class RESTORECommand extends Command {
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    return store.restore();
   }
 }

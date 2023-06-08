@@ -3,6 +3,8 @@ import Result from "../../result";
 import Store from "../../store";
 import Logger from "../../logger";
 import LogEntry from "../../logentry";
+import CircularQueue from "../../utils/circularQueue";
+import RPUSHCommand from "./RPUSH";
 export default class RPOPCommand extends Command {
   key: string;
 
@@ -12,10 +14,24 @@ export default class RPOPCommand extends Command {
   }
 
   execute(store: Store): Result<string> {
-    return new Result<string>(null, null);
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (!(res.value instanceof CircularQueue))
+      return Result.err("ERR type error");
+    const elem = res.value.pop();
+    return elem;
   }
 
-  log(log: Logger): LogEntry {
-    throw "Not implemented";
+  getRollbackCommand(store: Store): Result<Command> {
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (!(res.value instanceof CircularQueue))
+      return Result.err("ERR type error");
+    if (res.value.length() === 0)
+      return Result.err("Err popping an empty list");
+
+    return Result.ok(
+      new RPUSHCommand(this.key, [res.value.get(0).value as string])
+    );
   }
 }

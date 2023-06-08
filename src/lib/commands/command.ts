@@ -4,10 +4,10 @@ import Logger from "../logger";
 import LogEntry from "../logentry";
 export default class Command {
   execute(store: Store): Result<any> {
-    throw "Not implemented";
+    return Result.err("ERR not implemented");
   }
 
-  log(log: Logger): LogEntry {
-    throw "Not implemented";
+  getRollbackCommand(store: Store): Result<Command> {
+    return Result.err("ERR not implemented");
   }
 }

@@ -12,6 +12,11 @@ export default class SMEMBERSCommand extends Command {
   }
 
   execute(store: Store): Result<Array<string>> {
-    return new Result<Array<string>>(null, null);
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+
+    const keys = Array.from(res.value.keys());
+    return Result.ok(keys);
   }
 }

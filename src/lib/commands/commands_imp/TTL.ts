@@ -12,6 +12,6 @@ export default class TTLCommand extends Command {
   }
 
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    return store.getTTL(this.key);
   }
 }

@@ -4,8 +4,8 @@ import Store from "../../store";
 import Logger from "../../logger";
 import LogEntry from "../../logentry";
 import CircularQueue from "../../utils/circularQueue";
-import RPOPCommand from "./RPOP";
-export default class RPUSHCommand extends Command {
+import LPOPCommand from "./LPOP";
+export default class LPUSHCommand extends Command {
   key: string;
   values: Array<string>;
 
@@ -23,14 +23,14 @@ export default class RPUSHCommand extends Command {
 
     if (res.value === null) {
       const list = new CircularQueue<string>();
-      for (let value of this.values) list.push(value);
+      for (let value of this.values) list.unshift(value);
       store.set(this.key, list);
 
       return Result.ok(this.values.length);
     }
 
     for (let value of this.values) {
-      res.value.push(value);
+      res.value.unshift(value);
     }
 
     return Result.ok(res.value.length());
@@ -42,6 +42,6 @@ export default class RPUSHCommand extends Command {
     if (!(res.value instanceof CircularQueue))
       return Result.err("ERR type error");
 
-    return Result.ok(new RPOPCommand(this.key));
+    return Result.ok(new LPOPCommand(this.key));
   }
 }

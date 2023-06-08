@@ -15,6 +15,12 @@ export default class EXPIRECommand extends Command {
   }
 
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    if (!store.has(this.key)) return Result.err("ERR no value at this key");
+
+    store.clearExpire(this.key);
+
+    store.setExpire(this.key, this.seconds * 1000);
+
+    return Result.ok(1);
   }
 }

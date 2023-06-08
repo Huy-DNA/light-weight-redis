@@ -3,6 +3,7 @@ import Result from "../../result";
 import Store from "../../store";
 import Logger from "../../logger";
 import LogEntry from "../../logentry";
+import SADDCommand from "./SADD";
 export default class SREMCommand extends Command {
   key: string;
   values: Array<string>;
@@ -14,10 +15,23 @@ export default class SREMCommand extends Command {
   }
 
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+
+    for (let value of this.values) {
+      res.value.delete(value);
+    }
+
+    return Result.ok(res.value.size);
   }
 
-  log(log: Logger): LogEntry {
-    throw "Not implemented";
+  getRollbackCommand(store: Store): Result<Command> {
+    const res = store.get(this.key);
+    if (res.error !== null) return Result.err(res.error);
+    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+
+    const addList = this.values.filter(store.has);
+    return Result.ok(new SADDCommand(this.key, addList));
   }
 }

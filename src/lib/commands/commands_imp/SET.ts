@@ -3,6 +3,8 @@ import Result from "../../result";
 import Store from "../../store";
 import Logger from "../../logger";
 import LogEntry from "../../logentry";
+import DELCommand from "./DEL";
+import { type } from "os";
 export default class SETCommand extends Command {
   key: string;
   value: string;
@@ -14,10 +16,20 @@ export default class SETCommand extends Command {
   }
 
   execute(store: Store): Result<number> {
-    return new Result<number>(null, null);
+    const res = store.get(this.key);
+    if (res.value !== null && typeof res.value !== "string")
+      return Result.err("ERR type error");
+    store.set(this.key, this.value);
+    return Result.ok(1);
   }
 
-  log(log: Logger): LogEntry {
-    throw "Not implemented";
+  getRollbackCommand(store: Store): Result<Command> {
+    const res = store.get(this.key);
+    if (res.value !== null && typeof res.value !== "string")
+      return Result.err("ERR type error");
+
+    if (res.value === null) return Result.ok(new DELCommand(this.key));
+
+    return Result.ok(new SETCommand(this.key, res.value));
   }
 }

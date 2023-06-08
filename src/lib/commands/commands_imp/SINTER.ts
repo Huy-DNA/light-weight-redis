@@ -12,6 +12,18 @@ export default class SINTERCommand extends Command {
   }
 
   execute(store: Store): Result<Array<string>> {
-    return new Result<Array<string>>(null, null);
+    const resList = this.keys.map((key) => store.get(key));
+
+    if (
+      resList.some((res) => res.error !== null || !(res.value instanceof Set))
+    )
+      return Result.err("ERR type error");
+
+    const setList = resList.map((res) => res.value) as Array<Set<string>>;
+
+    const resSet: Set<string> = new Set();
+    for (let set of setList) [...set].forEach(resSet.add);
+
+    return Result.ok([...resSet]);
   }
 }
