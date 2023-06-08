@@ -3,6 +3,7 @@ import Result from "../../result";
 import Store from "../../store";
 import Log from "../../logger";
 import LogEntry from "../../logentry";
+
 export default class EXPIRECommand extends Command {
   key: string;
   seconds: number;

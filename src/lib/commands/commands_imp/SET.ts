@@ -5,9 +5,9 @@ import Log from "../../logger";
 import LogEntry from "../../logentry";
 export default class SETCommand extends Command {
   key: string;
-  value: number;
+  value: string;
 
-  constructor(key: string, value: number) {
+  constructor(key: string, value: string) {
     super();
     this.key = key;
     this.value = value;

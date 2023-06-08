@@ -24,7 +24,7 @@ export default class SREMFactory extends CommandFactory {
       const { key, values: _values } = matchRes.groups!;
       const values = Array.from(
         _values.matchAll(new RegExp(`${CommandFactory.tokenPattern}`, "ig"))
-      );
+      ).map((tuple) => tuple[0]);
       return new SREMCommand(key, values);
     }
   }

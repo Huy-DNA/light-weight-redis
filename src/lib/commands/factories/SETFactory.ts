@@ -1,5 +1,5 @@
 import CommandFactory from "../commandFactory";
-import SETCommand from "../commands_imp/EXPIRE";
+import SETCommand from "../commands_imp/SET";
 
 export default class SETFactory extends CommandFactory {
   constructor() {
