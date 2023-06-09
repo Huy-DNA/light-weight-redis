@@ -4,8 +4,7 @@ import Store from "../../store";
 import StoreMediator from "../../storeMediator";
 export default class SAVECommand extends Command {
   execute(mediator: StoreMediator): Result<string> {
-    mediator.takeSnapshot();
-    return Result.ok("OK");
+    return mediator.takeSnapshot();
   }
   toString(): string {
     return `SAVE`;

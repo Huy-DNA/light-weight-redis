@@ -78,13 +78,13 @@ export default class StoreMediator {
     return res;
   }
 
-  takeSnapshot(): Result<number> {
+  takeSnapshot(): Result<string> {
     this.#logger.takeCheckpoint();
     this.persistLog();
-    return Result.ok(1);
+    return Result.ok("OK");
   }
 
-  restoreSnapshot(): Result<number> {
+  restoreSnapshot(): Result<string> {
     const currentPoint = this.#logger.length() - 1;
     let checkpointRes = this.#logger.popCheckpoint();
 
@@ -105,7 +105,7 @@ export default class StoreMediator {
       entry.backwardCommand.execute(this);
     }
     this.#logger.takeCheckpoint();
-    return Result.ok(1);
+    return Result.ok("OK");
   }
 
   persistLog() {

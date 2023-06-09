@@ -3,7 +3,7 @@ import Result from "../../result";
 import Store from "../../store";
 import StoreMediator from "../../storeMediator";
 export default class RESTORECommand extends Command {
-  execute(mediator: StoreMediator): Result<number> {
+  execute(mediator: StoreMediator): Result<String> {
     const store = mediator.getStore();
     return mediator.restoreSnapshot();
   }
