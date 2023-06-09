@@ -18,6 +18,6 @@ export default class Result<T> {
   }
 
   static mes<T>(mes: string): Result<T> {
-    return new Result<T>(null, null, error);
+    return new Result<T>(null, null, mes);
   }
 }

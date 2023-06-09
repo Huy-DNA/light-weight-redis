@@ -9,7 +9,7 @@ export default function extractToken(str: string): Result<Array<string>> {
     /^(\s*(?:(?!<[^\s])[\w\d]*((?:"[^"]*")|(?:'[^']*'))?(?![^\s]))\s*)*$/;
 
   if (!str.match(tokenStreamPattern))
-    return Result.err("(ERR) input is not a valid stream of token");
+    return Result.err("Input is not a valid stream of token");
   return Result.ok(
     [...str.matchAll(tokenPattern)]
       .map((tuple) => aposMerge(tuple[0]).value as string)
@@ -21,7 +21,7 @@ export function aposMerge(str: string): Result<string> {
   const tokenPattern =
     /^\s*(?<first>[\w\d]*)(?<second>(?:"[^"]*")|(?:'[^']*'))?\s*$/;
   const matched = str.match(tokenPattern);
-  if (matched === null) return Result.err("(ERR) input is not a word");
+  if (matched === null) return Result.err("Input is not a word");
   const groups = matched.groups;
   const first = groups!.first;
   const second = groups!.second;

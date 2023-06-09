@@ -19,7 +19,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -35,12 +35,13 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/", (req, res, next) => {
-  const requestContent = req.body.commandString;
+  console.log(req.body);
+  const requestContent = req.body;
   const commandRes = parser.parse(requestContent);
   let response = "";
   if (commandRes.error !== null) response = commandRes.error;
   else if (commandRes.value === null)
-    response = "(ERR) unknown error when parsing the command";
+    response = "unknown error when parsing the command";
   else {
     const command = commandRes.value;
     const commandOutputRes = storeMediator.acceptCommand(command);

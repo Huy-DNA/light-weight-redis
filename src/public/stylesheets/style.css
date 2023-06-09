@@ -8,50 +8,64 @@ body {
 }
 
 #cli-screen {
+  display: flex;
+  flex-direction: column;
   width: max(60vw, 300px);
   height: 400px;
-
   margin-left: auto;
   margin-right: auto;
   margin-top: 10vh;
-
-  padding: 20px;
-
   border-radius: 10px;
-
-  background-color: antiquewhite;
-
   box-shadow: 10px 10px 5px #2b2b2b;
+  background-color: white;
 }
 
-#cli-output {
-  width: 100%;
-  height: 90%;
+#cli-header {
+  padding: 10px;
+  background-color: #dddddd;
+  display: flex;
+  flex-direction: row-reverse;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: black;
+  margin: 5px;
+}
 
-  margin: 0;
-
-  padding: 5px;
-
-  background-color: #d6d5cb;
-
-  overflow-y: auto;
+#cli-container {
+  height: 100%;
+  padding: 10px;
+  background-color: white;
+  overflow: auto;
 }
 
 .cli-output-response-line {
-  color: darkred;
+  color: blue;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .cli-output-prompt-line {
-  color: blue;
+  color: #2b2b2b;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#cli-input-container {
+  display: flex;
 }
 
 #cli-input {
-  width: 100%;
-  height: 8%;
-
-  margin: 0;
-
-  background-color: #2b2b2b;
-
-  color: whitesmoke;
+  font: 16px "Montserrat";
+  flex: 1;
+  margin-left: 5px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: #2b2b2b;
 }
