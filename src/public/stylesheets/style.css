@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
 
 body {
   padding: 50px;
@@ -35,6 +35,14 @@ body {
   background-color: #d6d5cb;
 
   overflow-y: auto;
+}
+
+.cli-output-response-line {
+  color: darkred;
+}
+
+.cli-output-prompt-line {
+  color: blue;
 }
 
 #cli-input {

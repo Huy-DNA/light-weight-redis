@@ -40,7 +40,7 @@ app.post("/", (req, res, next) => {
   let response = "";
   if (commandRes.error !== null) response = commandRes.error;
   else if (commandRes.value === null)
-    response = "ERR unknown error when parsing the command";
+    response = "(ERR) unknown error when parsing the command";
   else {
     const command = commandRes.value;
     const commandOutputRes = storeMediator.acceptCommand(command);

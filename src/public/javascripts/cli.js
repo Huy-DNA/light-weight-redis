@@ -8,6 +8,7 @@ input.onkeydown = (event) => {
 
   const newPromptLine = document.createElement("div");
   newPromptLine.textContent = `$ ${input.value}`;
+  newPromptLine.className = "cli-output-prompt-line";
   output.appendChild(newPromptLine);
   event.preventDefault();
   fetch("/", {
@@ -23,6 +24,8 @@ input.onkeydown = (event) => {
     .then((text) => {
       const newResponseLine = document.createElement("div");
       newResponseLine.textContent = `> ${text}\n`;
+      newResponseLine.className = "cli-output-response-line";
       output.appendChild(newResponseLine);
     });
+  input.value = "";
 };
