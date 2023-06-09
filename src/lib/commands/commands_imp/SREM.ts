@@ -22,6 +22,7 @@ export default class SREMCommand extends Command {
       value.delete(v);
     }
 
+
     return Result.ok(value.size);
   }
 
@@ -30,7 +31,7 @@ export default class SREMCommand extends Command {
     const value = store.get(this.key);
     if (!(value instanceof Set)) return Result.err("(ERR) type error");
 
-    const addList = this.values.filter(store.has);
+    const addList = this.values.filter(() => store.has);
     return Result.ok(new SADDCommand(this.key, addList));
   }
 

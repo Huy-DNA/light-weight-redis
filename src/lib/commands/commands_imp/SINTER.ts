@@ -18,7 +18,7 @@ export default class SINTERCommand extends Command {
       return Result.err("(ERR) type error");
 
     const res: Set<string> = new Set();
-    (valList as Set<string>[]).forEach((set) => set!.forEach(res.add));
+    (valList as Set<string>[]).forEach((set) => set!.forEach((e) => res.add(e)));
 
     return Result.ok([...res]);
   }
