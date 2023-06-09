@@ -17,11 +17,10 @@ export default class RPUSHCommand extends Command {
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
     const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
     if (res.value !== null && !(res.value instanceof CircularQueue))
       return Result.err("ERR type error");
 
-    if (res.value === null) {
+    if (res.value === null || res.error !== null) {
       const list = new CircularQueue<string>();
       for (let value of this.values) list.push(value);
       store.set(this.key, list);
