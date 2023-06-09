@@ -1,13 +1,11 @@
 import Result from "../result";
-import Store from "../store";
-import Logger from "../logger";
-import LogEntry from "../logentry";
+import StoreMediator from "../storeMediator";
 export default class Command {
-  execute(store: Store): Result<any> {
+  execute(mediator: StoreMediator): Result<any> {
     return Result.err("ERR not implemented");
   }
 
-  getRollbackCommand(store: Store): Result<Command> {
+  getRollbackCommand(mediator: StoreMediator): Result<Command> {
     return Result.err("ERR not implemented");
   }
 }

@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import CircularQueue from "../../utils/circularQueue";
 export default class LRANGECommand extends Command {
   key: string;
@@ -16,7 +15,8 @@ export default class LRANGECommand extends Command {
     this.stop = stop;
   }
 
-  execute(store: Store): Result<Array<string>> {
+  execute(mediator: StoreMediator): Result<Array<string>> {
+    const store = mediator.getStore();
     if (this.start < 0 || this.stop < 0)
       return Result.err("ERR index out-of-bound");
     if (this.start > this.stop)

@@ -1,10 +1,10 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 export default class RESTORECommand extends Command {
-  execute(store: Store): Result<number> {
-    return store.restore();
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
+    return mediator.restoreSnapshot();
   }
 }

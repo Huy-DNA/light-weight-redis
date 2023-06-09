@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import SETCommand from "./SET";
 import SADDCommand from "./SADD";
 import CircularQueue from "../../utils/circularQueue";
@@ -15,13 +14,15 @@ export default class DELCommand extends Command {
     this.key = key;
   }
 
-  execute(store: Store): Result<number> {
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
     if (!store.has(this.key)) return Result.err("ERR no value at this key");
     store.delete(this.key);
     return Result.ok(1);
   }
 
-  getRollbackCommand(store: Store): Result<Command> {
+  getRollbackCommand(mediator: StoreMediator): Result<Command> {
+    const store = mediator.getStore();
     const value = store.get(this.key).value;
     if (!store.has(this.key) || value === null)
       return Result.err("ERR no value at this key");

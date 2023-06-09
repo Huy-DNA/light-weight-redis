@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import CircularQueue from "../../utils/circularQueue";
 import LPOPCommand from "./LPOP";
 export default class LPUSHCommand extends Command {
@@ -15,7 +14,8 @@ export default class LPUSHCommand extends Command {
     this.values = values;
   }
 
-  execute(store: Store): Result<number> {
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (res.value !== null && !(res.value instanceof CircularQueue))
@@ -36,7 +36,8 @@ export default class LPUSHCommand extends Command {
     return Result.ok(res.value.length());
   }
 
-  getRollbackCommand(store: Store): Result<Command> {
+  getRollbackCommand(mediator: StoreMediator): Result<Command> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (!(res.value instanceof CircularQueue))

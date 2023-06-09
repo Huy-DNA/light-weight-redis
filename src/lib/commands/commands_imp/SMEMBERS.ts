@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 export default class SMEMBERSCommand extends Command {
   key: string;
 
@@ -11,7 +10,8 @@ export default class SMEMBERSCommand extends Command {
     this.key = key;
   }
 
-  execute(store: Store): Result<Array<string>> {
+  execute(mediator: StoreMediator): Result<Array<string>> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (!(res.value instanceof Set)) return Result.err("ERR type error");

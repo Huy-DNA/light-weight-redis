@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import SREMCommand from "./SREM";
 export default class SADDCommand extends Command {
   key: string;
@@ -14,7 +13,8 @@ export default class SADDCommand extends Command {
     this.values = values;
   }
 
-  execute(store: Store): Result<number> {
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (res.value !== null && !(res.value instanceof Set))
@@ -35,7 +35,8 @@ export default class SADDCommand extends Command {
     return Result.ok(res.value.size);
   }
 
-  getRollbackCommand(store: Store): Result<Command> {
+  getRollbackCommand(mediator: StoreMediator): Result<Command> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (!(res.value instanceof Set)) return Result.err("ERR type error");

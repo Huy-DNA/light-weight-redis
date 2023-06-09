@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import CircularQueue from "../../utils/circularQueue";
 export default class LLENCommand extends Command {
   key: string;
@@ -12,7 +11,8 @@ export default class LLENCommand extends Command {
     this.key = key;
   }
 
-  execute(store: Store): Result<number> {
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.error !== null) return Result.err(res.error);
     if (!(res.value instanceof CircularQueue))

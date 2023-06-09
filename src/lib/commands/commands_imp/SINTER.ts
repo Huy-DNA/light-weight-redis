@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 export default class SINTERCommand extends Command {
   keys: Array<string>;
 
@@ -11,7 +10,8 @@ export default class SINTERCommand extends Command {
     this.keys = keys;
   }
 
-  execute(store: Store): Result<Array<string>> {
+  execute(mediator: StoreMediator): Result<Array<string>> {
+    const store = mediator.getStore();
     const resList = this.keys.map((key) => store.get(key));
 
     if (

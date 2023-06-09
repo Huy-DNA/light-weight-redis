@@ -1,11 +1,10 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 export default class SAVECommand extends Command {
-  execute(store: Store): Result<number> {
-    store.snap();
+  execute(mediator: StoreMediator): Result<number> {
+    mediator.takeSnapshot();
     return Result.ok(1);
   }
 }

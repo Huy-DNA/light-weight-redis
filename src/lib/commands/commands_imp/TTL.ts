@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 export default class TTLCommand extends Command {
   key: string;
 
@@ -11,7 +10,8 @@ export default class TTLCommand extends Command {
     this.key = key;
   }
 
-  execute(store: Store): Result<number> {
-    return store.getTTL(this.key);
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
+    return store.getTimeout(this.key);
   }
 }

@@ -1,8 +1,7 @@
 import Command from "../command";
 import Result from "../../result";
 import Store from "../../store";
-import Logger from "../../logger";
-import LogEntry from "../../logentry";
+import StoreMediator from "../../storeMediator";
 import DELCommand from "./DEL";
 import { type } from "os";
 export default class SETCommand extends Command {
@@ -15,7 +14,8 @@ export default class SETCommand extends Command {
     this.value = value;
   }
 
-  execute(store: Store): Result<number> {
+  execute(mediator: StoreMediator): Result<number> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.value !== null && typeof res.value !== "string")
       return Result.err("ERR type error");
@@ -23,7 +23,8 @@ export default class SETCommand extends Command {
     return Result.ok(1);
   }
 
-  getRollbackCommand(store: Store): Result<Command> {
+  getRollbackCommand(mediator: StoreMediator): Result<Command> {
+    const store = mediator.getStore();
     const res = store.get(this.key);
     if (res.value !== null && typeof res.value !== "string")
       return Result.err("ERR type error");
