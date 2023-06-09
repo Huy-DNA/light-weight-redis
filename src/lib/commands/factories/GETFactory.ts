@@ -1,25 +1,24 @@
 import CommandFactory from "../commandFactory";
 import GETCommand from "../commands_imp/GET";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class GETFactory extends CommandFactory {
   constructor() {
-    super(
-      "GET",
-      ["key"],
-      [String],
-      new RegExp(`^\\s*GET\\s*(?<key>${CommandFactory.tokenPattern})\\s*$`, "i")
-    );
+    super("GET", ["key"], [String]);
   }
 
   create(rawString: string): Result<GETCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      const { key } = matchRes.groups!;
-      return Result.ok(new GETCommand(key));
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "GET") return Result.err("ERR not a GET command");
+
+    if (tokenList.length != 2) return Result.err("ERR GET expects 1 argument");
+
+    return Result.ok(new GETCommand(tokenList[1]));
   }
 }

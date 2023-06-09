@@ -1,32 +1,25 @@
 import CommandFactory from "../commandFactory";
 import SINTERCommand from "../commands_imp/SINTER";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class SINTERFactory extends CommandFactory {
   constructor() {
-    super(
-      "SINTER",
-      ["keys"],
-      [Array],
-
-      new RegExp(
-        `^\\s*SINTER\\s*(?<keys>${CommandFactory.tokenPattern}+)\\s*$`,
-        "i"
-      )
-    );
+    super("SINTER", ["keys"], [Array]);
   }
 
   create(rawString: string): Result<SINTERCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      const { keys: _keys } = matchRes.groups!;
-      const keys = [
-        ..._keys.matchAll(new RegExp(`${CommandFactory.tokenPattern}`, "ig")),
-      ].map((tuple) => tuple[0]);
-      return Result.ok(new SINTERCommand(keys));
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "SINTER") return Result.err("ERR not a SINTER command");
+
+    if (tokenList.length < 2)
+      return Result.err("ERR SINTER expects at least 1 arguments");
+
+    return Result.ok(new SINTERCommand(tokenList.slice(1)));
   }
 }

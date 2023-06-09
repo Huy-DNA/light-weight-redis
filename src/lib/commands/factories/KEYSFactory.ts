@@ -1,19 +1,25 @@
 import CommandFactory from "../commandFactory";
 import KEYSCommand from "../commands_imp/KEYS";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class KEYSFactory extends CommandFactory {
   constructor() {
-    super("KEYS", [], [], new RegExp(`^\\s*KEYS\\s*$`));
+    super("KEYS", [], []);
   }
 
   create(rawString: string): Result<KEYSCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      return Result.ok(new KEYSCommand());
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "KEYS") return Result.err("ERR not a KEYS command");
+
+    if (tokenList.length != 1)
+      return Result.err("ERR KEYS does not accept any arguments");
+
+    return Result.ok(new KEYSCommand());
   }
 }

@@ -1,32 +1,25 @@
 import CommandFactory from "../commandFactory";
 import SADDCommand from "../commands_imp/SADD";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class SADDFactory extends CommandFactory {
   constructor() {
-    super(
-      "SADD",
-      ["key", "values"],
-      [String, Array],
-
-      new RegExp(
-        `^\\s*SADD\\s*(?<key>${CommandFactory.tokenPattern})\\s*(?<values>${CommandFactory.tokenPattern}+)\\s*$`,
-        "i"
-      )
-    );
+    super("SADD", ["key", "values"], [String, Array]);
   }
 
   create(rawString: string): Result<SADDCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      const { key, values: _values } = matchRes.groups!;
-      const values = Array.from(
-        _values.matchAll(new RegExp(`${CommandFactory.tokenPattern}`, "ig"))
-      ).map((tuple) => tuple[0]);
-      return Result.ok(new SADDCommand(key, values));
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "SADD") return Result.err("ERR not a SADD command");
+
+    if (tokenList.length < 3)
+      return Result.err("ERR SADD expects at least 2 arguments");
+
+    return Result.ok(new SADDCommand(tokenList[1], tokenList.slice(2)));
   }
 }

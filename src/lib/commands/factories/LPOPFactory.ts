@@ -1,28 +1,24 @@
 import CommandFactory from "../commandFactory";
 import LPOPCommand from "../commands_imp/LPOP";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class LPOPFactory extends CommandFactory {
   constructor() {
-    super(
-      "LPOP",
-      ["key"],
-      [String],
-      new RegExp(
-        `^\\s*LPOP\\s*(?<key>${CommandFactory.tokenPattern})\\s*$`,
-        "i"
-      )
-    );
+    super("LPOP", ["key"], [String]);
   }
 
   create(rawString: string): Result<LPOPCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      const { key } = matchRes.groups!;
-      return Result.ok(new LPOPCommand(key));
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "LPOP") return Result.err("ERR not a LPOP command");
+
+    if (tokenList.length != 2) return Result.err("ERR LPOP expects 1 argument");
+
+    return Result.ok(new LPOPCommand(tokenList[1]));
   }
 }

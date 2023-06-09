@@ -1,32 +1,25 @@
 import CommandFactory from "../commandFactory";
 import RPUSHCommand from "../commands_imp/RPUSH";
 import Result from "../../result";
+import extractToken from "../../utils/extractToken";
 
 export default class RPUSHFactory extends CommandFactory {
   constructor() {
-    super(
-      "RPUSH",
-      ["key", "values"],
-      [String, Array],
-
-      new RegExp(
-        `^\\s*RPUSH\\s*(?<key>${CommandFactory.tokenPattern})\\s*(?<values>${CommandFactory.tokenPattern}+)\\s*$`,
-        "i"
-      )
-    );
+    super("RPUSH", ["key", "values"], [String, Array]);
   }
 
   create(rawString: string): Result<RPUSHCommand> {
-    const matchRes = rawString.match(this.regex);
+    const matchRes = extractToken(rawString);
 
-    if (matchRes === null) {
+    if (matchRes.error !== null || matchRes.value === null)
       return Result.err("ERR invalid arguments");
-    } else {
-      const { key, values: _values } = matchRes.groups!;
-      const values = Array.from(
-        _values.matchAll(new RegExp(`${CommandFactory.tokenPattern}`, "ig"))
-      ).map((tuple) => tuple[0]);
-      return Result.ok(new RPUSHCommand(key, values));
-    }
+
+    const tokenList = matchRes.value;
+    if (tokenList[0] !== "RPUSH") return Result.err("ERR not a RPUSH command");
+
+    if (tokenList.length < 3)
+      return Result.err("ERR RPUSH expects at least 2 arguments");
+
+    return Result.ok(new RPUSHCommand(tokenList[1], tokenList.slice(2)));
   }
 }
