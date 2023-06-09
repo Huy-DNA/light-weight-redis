@@ -17,7 +17,7 @@ export default class CircularQueue<T> {
 
   unshift(value: T) {
     if (this.#size === this.#capacity) this.#expand();
-    this.#head = (this.#head - 1) % this.#capacity;
+    this.#head = (this.#head - 1 + this.#capacity) % this.#capacity;
     this.#buffer[this.#head] = value;
     this.#size += 1;
   }
@@ -39,7 +39,7 @@ export default class CircularQueue<T> {
 
   get(index: number): Result<T> {
     if (index < 0 || index >= this.#size)
-      return Result.err("Err index out of range");
+      return Result.err("ERR index out of range");
     const phyIndex = (index + this.#head) % this.#capacity;
     return Result.ok(this.#buffer[phyIndex]);
   }
