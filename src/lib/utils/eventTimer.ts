@@ -4,7 +4,7 @@ export default class EventTimer {
 
   constructor(callback: Function, milliseconds: number) {
     this.#timerID = setTimeout(callback, milliseconds);
-    this.#timeoutTimestampInMs = Date.now() + this.#timerID;
+    this.#timeoutTimestampInMs = Date.now() + milliseconds;
   }
 
   clear() {
