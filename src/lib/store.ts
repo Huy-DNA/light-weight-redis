@@ -20,7 +20,7 @@ export default class Store {
 
     if (timedValue === undefined) return Result.err("ERR no value at this key");
 
-    if (Date.now() >= timedValue.timeout) {
+    if (timedValue.timeout >= 0 && Date.now() >= timedValue.timeout) {
       this.delete(key);
       return Result.err("ERR no value at this key");
     }
@@ -34,7 +34,7 @@ export default class Store {
     if (timedValue === undefined) return Result.err("ERR no value at this key");
 
     const ttl = Date.now() - timedValue.timeout;
-    if (ttl >= 0) {
+    if (timedValue.timeout >= 0 && ttl >= 0) {
       this.delete(key);
       return Result.err("ERR no value at this key");
     }
