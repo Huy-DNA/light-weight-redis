@@ -45,4 +45,8 @@ export default class RPUSHCommand extends Command {
 
     return Result.ok(new RPOPCommand(this.key));
   }
+
+  toString(): string {
+    return `RPUSH ${this.key} ${this.values.join(" ")}`;
+  }
 }

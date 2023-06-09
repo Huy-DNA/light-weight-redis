@@ -35,4 +35,8 @@ export default class RPOPCommand extends Command {
       new RPUSHCommand(this.key, [res.value.get(0).value as string])
     );
   }
+
+  toString(): string {
+    return `RPOP ${this.key}`;
+  }
 }

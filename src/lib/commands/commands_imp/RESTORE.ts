@@ -7,4 +7,7 @@ export default class RESTORECommand extends Command {
     const store = mediator.getStore();
     return mediator.restoreSnapshot();
   }
+  toString(): string {
+    return `RESTORE`;
+  }
 }

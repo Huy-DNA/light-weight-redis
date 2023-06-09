@@ -8,4 +8,8 @@ export default class Command {
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     return Result.err("ERR not implemented");
   }
+
+  toString(): string {
+    return "";
+  }
 }

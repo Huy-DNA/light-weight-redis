@@ -7,4 +7,7 @@ export default class KEYSCommand extends Command {
     const store = mediator.getStore();
     return Result.ok(store.keys());
   }
+  toString(): string {
+    return `KEYS`;
+  }
 }

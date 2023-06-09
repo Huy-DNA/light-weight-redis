@@ -33,4 +33,8 @@ export default class LRANGECommand extends Command {
       range.push(res.value.get(i).value as string);
     return Result.ok(range);
   }
+
+  toString(): string {
+    return `LRANGE ${this.key} ${this.start} ${this.stop}`;
+  }
 }

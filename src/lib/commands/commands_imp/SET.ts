@@ -33,4 +33,7 @@ export default class SETCommand extends Command {
 
     return Result.ok(new SETCommand(this.key, res.value));
   }
+  toString(): string {
+    return `SET ${this.key} ${this.value}`;
+  }
 }

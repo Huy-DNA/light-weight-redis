@@ -19,4 +19,8 @@ export default class SMEMBERSCommand extends Command {
     const keys = Array.from(res.value.keys());
     return Result.ok(keys);
   }
+
+  toString(): string {
+    return `SMEMBERS ${this.key}`;
+  }
 }

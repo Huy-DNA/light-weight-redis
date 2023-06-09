@@ -44,4 +44,8 @@ export default class SADDCommand extends Command {
     const deleteList = this.values.filter((value) => !store.has(value));
     return Result.ok(new SREMCommand(this.key, deleteList));
   }
+
+  toString(): string {
+    return `SADD ${this.key} ${this.values.join(" ")}`;
+  }
 }

@@ -25,6 +25,13 @@ export default class Logger {
     return this.#log.length;
   }
 
+  dump() {
+    return {
+      entries: [...this.#log],
+      checkpoints: [...this.#checkpoints],
+    };
+  }
+
   takeCheckpoint() {
     this.#checkpoints.push(this.#log.length - 1);
   }

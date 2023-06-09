@@ -19,4 +19,8 @@ export default class LLENCommand extends Command {
       return Result.err("ERR type error");
     return Result.ok(res.value.length());
   }
+
+  toString(): string {
+    return `LLEN ${this.key}`;
+  }
 }

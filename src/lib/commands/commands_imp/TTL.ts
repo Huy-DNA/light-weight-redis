@@ -14,4 +14,8 @@ export default class TTLCommand extends Command {
     const store = mediator.getStore();
     return store.getTimeout(this.key);
   }
+
+  toString(): string {
+    return `TTL ${this.key}`;
+  }
 }

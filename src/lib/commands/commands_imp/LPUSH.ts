@@ -45,4 +45,7 @@ export default class LPUSHCommand extends Command {
 
     return Result.ok(new LPOPCommand(this.key));
   }
+  toString(): string {
+    return `LPUSH ${this.key} ${this.values.join(" ")}`;
+  }
 }

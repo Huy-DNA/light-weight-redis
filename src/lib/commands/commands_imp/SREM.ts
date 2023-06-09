@@ -35,4 +35,8 @@ export default class SREMCommand extends Command {
     const addList = this.values.filter(store.has);
     return Result.ok(new SADDCommand(this.key, addList));
   }
+
+  toString(): string {
+    return `SREM ${this.key} ${this.values.join(" ")}`;
+  }
 }

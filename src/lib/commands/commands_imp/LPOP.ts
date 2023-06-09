@@ -35,4 +35,7 @@ export default class LPOPCommand extends Command {
       new LPUSHCommand(this.key, [res.value.get(0).value as string])
     );
   }
+  toString(): string {
+    return `LPOP ${this.key}`;
+  }
 }

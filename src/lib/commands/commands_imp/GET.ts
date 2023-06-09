@@ -18,4 +18,8 @@ export default class GETCommand extends Command {
     if (typeof res.value === "string") return Result.ok(res.value);
     return Result.err("ERR type error");
   }
+
+  toString(): string {
+    return `GET ${this.key}`;
+  }
 }

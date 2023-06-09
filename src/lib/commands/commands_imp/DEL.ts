@@ -37,4 +37,8 @@ export default class DELCommand extends Command {
     }
     return Result.ok(new SETCommand(this.key, value));
   }
+
+  toString(): string {
+    return `DEL ${this.key}`;
+  }
 }

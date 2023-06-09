@@ -19,4 +19,8 @@ export default class EXPIRECommand extends Command {
 
     return store.setTimeout(this.key, this.seconds * 1000);
   }
+
+  toString(): string {
+    return `EXPIRE ${this.key} ${this.seconds}`;
+  }
 }

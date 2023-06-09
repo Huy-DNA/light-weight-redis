@@ -26,4 +26,8 @@ export default class SINTERCommand extends Command {
 
     return Result.ok([...resSet]);
   }
+
+  toString(): string {
+    return `SINTER ${this.keys.join(" ")}`;
+  }
 }

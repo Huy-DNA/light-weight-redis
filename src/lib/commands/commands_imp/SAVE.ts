@@ -7,4 +7,7 @@ export default class SAVECommand extends Command {
     mediator.takeSnapshot();
     return Result.ok(1);
   }
+  toString(): string {
+    return `SAVE`;
+  }
 }
