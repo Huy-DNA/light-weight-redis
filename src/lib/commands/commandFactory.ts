@@ -17,6 +17,6 @@ export default class CommandFactory {
   }
 
   create(rawString: string): Result<Command> {
-    return Result.err("(ERR) not implemented");
+    return Result.err("Not implemented");
   }
 }

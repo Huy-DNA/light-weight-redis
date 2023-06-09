@@ -15,18 +15,18 @@ export default class RPOPCommand extends Command {
   execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
     const value = store.get(this.key);
-    if (value === undefined) return Result.err("(ERR) no value at this key");
-    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
+    if (value === undefined) return Result.err("No value at this key");
+    if (!(value instanceof CircularQueue)) return Result.err("Type error");
     const res = value.pop();
-    if (res === undefined) return Result.err("(ERR) popping an empty list");
+    if (res === undefined) return Result.err("Popping an empty list");
     return Result.ok(res);
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
     const value = store.get(this.key);
-    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
-    if (value.length() === 0) return Result.err("Err popping an empty list");
+    if (!(value instanceof CircularQueue)) return Result.err("Type error");
+    if (value.length() === 0) return Result.err("Popping an empty list");
 
     return Result.ok(
       new RPUSHCommand(this.key, [value.get(value.length() - 1)])

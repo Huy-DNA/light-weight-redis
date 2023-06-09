@@ -12,13 +12,13 @@ export default class SREMFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("(ERR) invalid arguments");
+      return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SREM") return Result.err("(ERR) not a SREM command");
+    if (tokenList[0] !== "SREM") return Result.err("Not a SREM command");
 
     if (tokenList.length < 3)
-      return Result.err("(ERR) SREM expects at least 2 arguments");
+      return Result.err("SREM expects at least 2 arguments");
 
     return Result.ok(new SREMCommand(tokenList[1], tokenList.slice(2)));
   }

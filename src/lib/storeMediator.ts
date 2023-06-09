@@ -78,25 +78,25 @@ export default class StoreMediator {
     return res;
   }
 
-  takeSnapshot(): Result<string> {
+  takeSnapshot(): Result<any> {
     this.#logger.takeCheckpoint();
     this.persistLog();
-    return Result.ok("OK");
+    return Result.mes("OK");
   }
 
-  restoreSnapshot(): Result<string> {
+  restoreSnapshot(): Result<any> {
     const currentPoint = this.#logger.length() - 1;
     let checkpointRes = this.#logger.popCheckpoint();
 
     if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("(ERR) no snapshot taken");
+      return Result.err("No snapshot taken");
     let checkpoint = checkpointRes.value;
 
     if (currentPoint === checkpoint)
       checkpointRes = this.#logger.popCheckpoint();
 
     if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("(ERR) no snapshot taken");
+      return Result.err("No snapshot taken");
     checkpoint = checkpointRes.value;
 
     while (this.#logger.length() > checkpoint + 1) {
@@ -105,7 +105,7 @@ export default class StoreMediator {
       entry.backwardCommand.execute(this);
     }
     this.#logger.takeCheckpoint();
-    return Result.ok("OK");
+    return Result.mes("OK");
   }
 
   persistLog() {

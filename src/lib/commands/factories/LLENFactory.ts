@@ -12,12 +12,12 @@ export default class LLENFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("(ERR) invalid arguments");
+      return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "LLEN") return Result.err("(ERR) not a LLEN command");
+    if (tokenList[0] !== "LLEN") return Result.err("Not a LLEN command");
 
-    if (tokenList.length != 2) return Result.err("(ERR) LLEN expects 1 argument");
+    if (tokenList.length != 2) return Result.err("LLEN expects 1 argument");
 
     return Result.ok(new LLENCommand(tokenList[1]));
   }

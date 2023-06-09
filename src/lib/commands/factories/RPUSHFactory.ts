@@ -12,13 +12,13 @@ export default class RPUSHFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("(ERR) invalid arguments");
+      return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "RPUSH") return Result.err("(ERR) not a RPUSH command");
+    if (tokenList[0] !== "RPUSH") return Result.err("Not a RPUSH command");
 
     if (tokenList.length < 3)
-      return Result.err("(ERR) RPUSH expects at least 2 arguments");
+      return Result.err("RPUSH expects at least 2 arguments");
 
     return Result.ok(new RPUSHCommand(tokenList[1], tokenList.slice(2)));
   }

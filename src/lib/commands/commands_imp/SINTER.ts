@@ -15,10 +15,12 @@ export default class SINTERCommand extends Command {
     const valList = this.keys.map((key) => store.get(key));
 
     if (valList.some((val) => val === undefined || !(val instanceof Set)))
-      return Result.err("(ERR) type error");
+      return Result.err("Type error");
 
     const res: Set<string> = new Set();
-    (valList as Set<string>[]).forEach((set) => set!.forEach((e) => res.add(e)));
+    (valList as Set<string>[]).forEach((set) =>
+      set!.forEach((e) => res.add(e))
+    );
 
     return Result.ok([...res]);
   }

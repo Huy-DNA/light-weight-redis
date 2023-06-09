@@ -12,14 +12,13 @@ export default class RESTOREFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("(ERR) invalid arguments");
+      return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "RESTORE")
-      return Result.err("(ERR) not a RESTORE command");
+    if (tokenList[0] !== "RESTORE") return Result.err("Not a RESTORE command");
 
     if (tokenList.length != 1)
-      return Result.err("(ERR) RESTORE does not accept any arguments");
+      return Result.err("RESTORE does not accept any arguments");
 
     return Result.ok(new RESTORECommand());
   }

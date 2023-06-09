@@ -13,9 +13,9 @@ export default class GETCommand extends Command {
   execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
     const value = store.get(this.key);
-    if (value === undefined) return Result.err("(ERR) no value at this key");
+    if (value === undefined) return Result.err("No value at this key");
     if (typeof value === "string") return Result.ok(value);
-    return Result.err("(ERR) type error");
+    return Result.err("Type error");
   }
 
   toString(): string {

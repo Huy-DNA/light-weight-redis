@@ -25,7 +25,7 @@ export default class SADDCommand extends Command {
       return Result.ok(this.values.length);
     }
 
-    if (!(value instanceof Set)) return Result.err("(ERR) type error");
+    if (!(value instanceof Set)) return Result.err("Type error");
 
     for (let v of this.values) {
       value.add(v);
@@ -38,7 +38,7 @@ export default class SADDCommand extends Command {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value === undefined) return Result.ok(new DELCommand(this.key));
-    if (!(value instanceof Set)) return Result.err("(ERR) type error");
+    if (!(value instanceof Set)) return Result.err("Type error");
 
     const deleteList = this.values.filter((value) => !store.has(value));
     return Result.ok(new SREMCommand(this.key, deleteList));

@@ -15,9 +15,9 @@ export default class EXPIRECommand extends Command {
 
   execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
-    if (!store.has(this.key)) return Result.err("(ERR) no value at this key");
+    if (!store.has(this.key)) return Result.err("No value at this key");
     mediator.setTimeout(this.key, this.seconds * 1000);
-    return Result.ok("OK");
+    return Result.mes("OK");
   }
 
   toString(): string {

@@ -18,7 +18,7 @@ export default class SETCommand extends Command {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value !== undefined && typeof value !== "string")
-      return Result.err("(ERR) type error");
+      return Result.err("Type error");
     store.set(this.key, this.value);
     return Result.ok("OK");
   }
@@ -27,7 +27,7 @@ export default class SETCommand extends Command {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value !== undefined && typeof value !== "string")
-      return Result.err("(ERR) type error");
+      return Result.err("Type error");
 
     if (value === undefined) return Result.ok(new DELCommand(this.key));
 

@@ -12,12 +12,12 @@ export default class RPOPFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("(ERR) invalid arguments");
+      return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "RPOP") return Result.err("(ERR) not a RPOP command");
+    if (tokenList[0] !== "RPOP") return Result.err("Not a RPOP command");
 
-    if (tokenList.length != 2) return Result.err("(ERR) RPOP expects 1 argument");
+    if (tokenList.length != 2) return Result.err("RPOP expects 1 argument");
 
     return Result.ok(new RPOPCommand(tokenList[1]));
   }

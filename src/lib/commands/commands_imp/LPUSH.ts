@@ -19,7 +19,7 @@ export default class LPUSHCommand extends Command {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value !== undefined && !(value instanceof CircularQueue))
-      return Result.err("(ERR) type error");
+      return Result.err("Type error");
 
     if (value === undefined) {
       const list = new CircularQueue<string>();
@@ -40,7 +40,7 @@ export default class LPUSHCommand extends Command {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value === undefined) return Result.ok(new DELCommand(this.key));
-    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
+    if (!(value instanceof CircularQueue)) return Result.err("Type error");
 
     return Result.ok(new LPOPCommand(this.key));
   }

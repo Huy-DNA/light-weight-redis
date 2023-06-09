@@ -13,7 +13,7 @@ export default class TTLCommand extends Command {
   execute(mediator: StoreMediator): Result<number> {
     const timeoutInMs = mediator.getTimeout(this.key);
     if (timeoutInMs === undefined)
-      return Result.err("(ERR) no timer or no value at this key");
+      return Result.err("No timer or no value at this key");
     return Result.ok(timeoutInMs / 1000);
   }
 
