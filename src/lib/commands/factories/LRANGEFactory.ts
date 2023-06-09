@@ -15,7 +15,8 @@ export default class LRANGEFactory extends CommandFactory {
       return Result.err("ERR invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "LRANGE") return Result.err("ERR not a LRANGE command");
+    if (tokenList[0] !== "LRANGE")
+      return Result.err("ERR not a LRANGE command");
 
     if (tokenList.length != 4)
       return Result.err("ERR SREM expects 3 arguments");

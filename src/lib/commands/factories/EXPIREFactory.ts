@@ -15,7 +15,8 @@ export default class EXPIREFactory extends CommandFactory {
 
     const tokenList = matchRes.value;
 
-    if (tokenList[0] !== "EXPIRE") return Result.err("ERR not an EXPIRE command");
+    if (tokenList[0] !== "EXPIRE")
+      return Result.err("ERR not an EXPIRE command");
     if (tokenList.length != 3)
       return Result.err("ERR EXPIRE expects 2 arguments");
 

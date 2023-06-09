@@ -15,7 +15,8 @@ export default class SINTERFactory extends CommandFactory {
       return Result.err("ERR invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SINTER") return Result.err("ERR not a SINTER command");
+    if (tokenList[0] !== "SINTER")
+      return Result.err("ERR not a SINTER command");
 
     if (tokenList.length < 2)
       return Result.err("ERR SINTER expects at least 1 arguments");
