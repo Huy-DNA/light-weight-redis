@@ -65,7 +65,7 @@ export default class Store {
   has(key: string): boolean {
     const timedValue = this.#keyValueStore.get(key);
     if (timedValue === undefined) return false;
-    if (Date.now() >= timedValue.timeout) {
+    if (timedValue.timeout >= 0 && Date.now() >= timedValue.timeout) {
       this.delete(key);
       return false;
     }

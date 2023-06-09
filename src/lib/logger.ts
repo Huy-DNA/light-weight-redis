@@ -33,12 +33,12 @@ export default class Logger {
   }
 
   takeCheckpoint() {
-    this.#checkpoints.push(this.#log.length - 1);
+    if (this.#checkpoints[this.#checkpoints.length - 1] != this.#log.length - 1)
+      this.#checkpoints.push(this.#log.length - 1);
   }
 
   popCheckpoint(): Result<number> {
     const checkpoint = this.#checkpoints.pop();
-
     if (checkpoint === undefined)
       return Result.err("ERR no more checkpoints to pop");
     return Result.ok(checkpoint);

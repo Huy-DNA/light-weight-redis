@@ -19,21 +19,28 @@ export default class StoreMediator {
 
   #recoverFromPersist() {
     let parser = new Parser(commandMapping);
-    const logRawContent = fs
-      .readFileSync("./log.json", {
-        encoding: "utf8",
-        flag: "r",
-      })
-      .toString();
-    const log = JSON.parse(logRawContent);
-    for (let logRawEntry of log.entries) {
-      const commandRes = parser.parse(logRawEntry);
-      const command = commandRes.value;
-      if (commandRes.error !== null || command === null) {
-        console.log("[Warning] Invalid command encountered in persisted log.");
-        continue;
+    try {
+      const logRawContent = fs
+        .readFileSync("./log.json", {
+          encoding: "utf8",
+          flag: "r",
+        })
+        .toString();
+      const log = JSON.parse(logRawContent);
+
+      for (let logRawEntry of log.entries) {
+        const commandRes = parser.parse(logRawEntry);
+        const command = commandRes.value;
+        if (commandRes.error !== null || command === null) {
+          console.log(
+            "[Warning] Invalid command encountered in persisted log."
+          );
+          continue;
+        }
+        command.execute(this);
       }
-      command.execute(this);
+    } catch {
+      console.log("[Warning] Reading from persisted log fails.");
     }
   }
 
@@ -57,15 +64,26 @@ export default class StoreMediator {
   }
 
   restoreSnapshot(): Result<number> {
-    const checkpointRes = this.#logger.popCheckpoint();
+    const currentPoint = this.#logger.length() - 1;
+    let checkpointRes = this.#logger.popCheckpoint();
+    
     if (checkpointRes.error !== null || checkpointRes.value === null)
       return Result.err("ERR no snapshot taken");
-    const checkpoint = checkpointRes.value;
+    let checkpoint = checkpointRes.value;
+    
+    if (currentPoint === checkpoint)
+        checkpointRes = this.#logger.popCheckpoint();
+    
+    if (checkpointRes.error !== null || checkpointRes.value === null)
+      return Result.err("ERR no snapshot taken");
+    checkpoint = checkpointRes.value;
+
     while (this.#logger.length() > checkpoint + 1) {
       const entry = this.#logger.popEntry().value as LogEntry;
       if (entry.backwardCommand === null) continue;
       entry.backwardCommand.execute(this);
     }
+    this.#logger.takeCheckpoint();
     return Result.ok(1);
   }
 
