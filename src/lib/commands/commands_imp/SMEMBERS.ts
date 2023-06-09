@@ -12,11 +12,10 @@ export default class SMEMBERSCommand extends Command {
 
   execute(mediator: StoreMediator): Result<Array<string>> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (!(value instanceof Set)) return Result.err("(ERR) type error");
 
-    const keys = Array.from(res.value.keys());
+    const keys = Array.from(value.keys());
     return Result.ok(keys);
   }
 

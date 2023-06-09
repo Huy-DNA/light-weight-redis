@@ -3,6 +3,7 @@ import Result from "../../result";
 import Store from "../../store";
 import StoreMediator from "../../storeMediator";
 import SREMCommand from "./SREM";
+import DELCommand from "./DEL";
 export default class SADDCommand extends Command {
   key: string;
   values: Array<string>;
@@ -15,31 +16,29 @@ export default class SADDCommand extends Command {
 
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (res.value !== null && !(res.value instanceof Set))
-      return Result.err("ERR type error");
-
-    if (res.value === null) {
+    const value = store.get(this.key);
+    if (value === undefined) {
       const set = new Set<string>();
-      for (let value of this.values) set.add(value);
+      for (let v of this.values) set.add(v);
       store.set(this.key, set);
 
       return Result.ok(this.values.length);
     }
 
-    for (let value of this.values) {
-      res.value.add(value);
+    if (!(value instanceof Set)) return Result.err("(ERR) type error");
+
+    for (let v of this.values) {
+      value.add(v);
     }
 
-    return Result.ok(res.value.size);
+    return Result.ok(value.size);
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value === undefined) return Result.ok(new DELCommand(this.key));
+    if (!(value instanceof Set)) return Result.err("(ERR) type error");
 
     const deleteList = this.values.filter((value) => !store.has(value));
     return Result.ok(new SREMCommand(this.key, deleteList));

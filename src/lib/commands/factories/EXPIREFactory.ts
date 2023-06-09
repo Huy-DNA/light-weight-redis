@@ -11,14 +11,14 @@ export default class EXPIREFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
 
     if (tokenList[0] !== "EXPIRE")
-      return Result.err("ERR not an EXPIRE command");
+      return Result.err("(ERR) not an EXPIRE command");
     if (tokenList.length != 3)
-      return Result.err("ERR EXPIRE expects 2 arguments");
+      return Result.err("(ERR) EXPIRE expects 2 arguments");
 
     return Result.ok(new EXPIRECommand(tokenList[1], Number(tokenList[2])));
   }

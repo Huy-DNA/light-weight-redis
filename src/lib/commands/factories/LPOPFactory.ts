@@ -12,12 +12,12 @@ export default class LPOPFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "LPOP") return Result.err("ERR not a LPOP command");
+    if (tokenList[0] !== "LPOP") return Result.err("(ERR) not a LPOP command");
 
-    if (tokenList.length != 2) return Result.err("ERR LPOP expects 1 argument");
+    if (tokenList.length != 2) return Result.err("(ERR) LPOP expects 1 argument");
 
     return Result.ok(new LPOPCommand(tokenList[1]));
   }

@@ -12,14 +12,14 @@ export default class LRANGEFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
     if (tokenList[0] !== "LRANGE")
-      return Result.err("ERR not a LRANGE command");
+      return Result.err("(ERR) not a LRANGE command");
 
     if (tokenList.length != 4)
-      return Result.err("ERR SREM expects 3 arguments");
+      return Result.err("(ERR) SREM expects 3 arguments");
 
     return Result.ok(
       new LRANGECommand(

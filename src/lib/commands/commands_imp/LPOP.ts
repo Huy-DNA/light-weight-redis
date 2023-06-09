@@ -14,26 +14,20 @@ export default class LPOPCommand extends Command {
 
   execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof CircularQueue))
-      return Result.err("ERR type error");
-    const elem = res.value.shift();
-    return elem;
+    const value = store.get(this.key);
+    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
+    const res = value.shift();
+    if (res === undefined) return Result.err("(ERR) popping an empty list");
+    return Result.ok(res);
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof CircularQueue))
-      return Result.err("ERR type error");
-    if (res.value.length() === 0)
-      return Result.err("Err popping an empty list");
+    const value = store.get(this.key);
+    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
+    if (value.length() === 0) return Result.err("(ERR) popping an empty list");
 
-    return Result.ok(
-      new LPUSHCommand(this.key, [res.value.get(0).value as string])
-    );
+    return Result.ok(new LPUSHCommand(this.key, [value.get(0)]));
   }
   toString(): string {
     return `LPOP ${this.key}`;

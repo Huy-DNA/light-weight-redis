@@ -6,14 +6,18 @@ import Result from "./result";
 import fs from "fs";
 import Parser from "./parser";
 import commandMapping from "./commandMapping";
+import EventTimer from "./utils/eventTimer";
+import DELCommand from "./commands/commands_imp/DEL";
 
 export default class StoreMediator {
   #store: Store;
   #logger: Logger;
+  #timerStore: Map<string, EventTimer>;
 
   constructor(store: Store, logger: Logger) {
     this.#store = store;
     this.#logger = logger;
+    this.#timerStore = new Map<string, EventTimer>();
     this.#recoverFromPersist();
   }
 
@@ -48,6 +52,23 @@ export default class StoreMediator {
     return this.#store;
   }
 
+  setTimeout(key: string, milliseconds: number) {
+    const timer = this.#timerStore.get(key);
+    if (timer !== undefined) timer.clear();
+    this.#timerStore.set(
+      key,
+      new EventTimer(() => {
+        this.acceptCommand(new DELCommand(key));
+        this.#timerStore.delete(key);
+      }, milliseconds)
+    );
+  }
+
+  getTimeout(key: string): number | undefined {
+    const timer = this.#timerStore.get(key);
+    return timer === undefined ? undefined : timer.getRemainingTime();
+  }
+
   acceptCommand(command: Command): Result<any> {
     const rollbackCommandRes = command.getRollbackCommand(this);
     const res = command.execute(this);
@@ -66,16 +87,16 @@ export default class StoreMediator {
   restoreSnapshot(): Result<number> {
     const currentPoint = this.#logger.length() - 1;
     let checkpointRes = this.#logger.popCheckpoint();
-    
+
     if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("ERR no snapshot taken");
+      return Result.err("(ERR) no snapshot taken");
     let checkpoint = checkpointRes.value;
-    
+
     if (currentPoint === checkpoint)
-        checkpointRes = this.#logger.popCheckpoint();
-    
+      checkpointRes = this.#logger.popCheckpoint();
+
     if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("ERR no snapshot taken");
+      return Result.err("(ERR) no snapshot taken");
     checkpoint = checkpointRes.value;
 
     while (this.#logger.length() > checkpoint + 1) {

@@ -14,24 +14,24 @@ export default class SETCommand extends Command {
     this.value = value;
   }
 
-  execute(mediator: StoreMediator): Result<number> {
+  execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.value !== null && typeof res.value !== "string")
-      return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value !== undefined && typeof value !== "string")
+      return Result.err("(ERR) type error");
     store.set(this.key, this.value);
-    return Result.ok(1);
+    return Result.ok("OK");
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.value !== null && typeof res.value !== "string")
-      return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value !== undefined && typeof value !== "string")
+      return Result.err("(ERR) type error");
 
-    if (res.value === null) return Result.ok(new DELCommand(this.key));
+    if (value === undefined) return Result.ok(new DELCommand(this.key));
 
-    return Result.ok(new SETCommand(this.key, res.value));
+    return Result.ok(new SETCommand(this.key, value));
   }
   toString(): string {
     return `SET ${this.key} ${this.value}`;

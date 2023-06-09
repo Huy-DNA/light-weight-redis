@@ -4,6 +4,7 @@ import Store from "../../store";
 import StoreMediator from "../../storeMediator";
 import CircularQueue from "../../utils/circularQueue";
 import RPOPCommand from "./RPOP";
+import DELCommand from "./DEL";
 export default class RPUSHCommand extends Command {
   key: string;
   values: Array<string>;
@@ -16,11 +17,11 @@ export default class RPUSHCommand extends Command {
 
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.value !== null && !(res.value instanceof CircularQueue))
-      return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value !== undefined && !(value instanceof CircularQueue))
+      return Result.err("(ERR) type error");
 
-    if (res.value === null || res.error !== null) {
+    if (value === undefined) {
       const list = new CircularQueue<string>();
       for (let value of this.values) list.push(value);
       store.set(this.key, list);
@@ -28,19 +29,18 @@ export default class RPUSHCommand extends Command {
       return Result.ok(this.values.length);
     }
 
-    for (let value of this.values) {
-      res.value.push(value);
+    for (let v of this.values) {
+      value.push(v);
     }
 
-    return Result.ok(res.value.length());
+    return Result.ok(value.length());
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof CircularQueue))
-      return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value === undefined) return Result.ok(new DELCommand(this.key));
+    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
 
     return Result.ok(new RPOPCommand(this.key));
   }

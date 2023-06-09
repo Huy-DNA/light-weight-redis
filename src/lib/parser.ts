@@ -14,7 +14,7 @@ export default class Parser {
     const commandFactory = this.#commandMapping.get(commandName);
 
     if (commandFactory === undefined) {
-      return Result.err("ERR unknown command");
+      return Result.err("(ERR) unknown command");
     }
     return commandFactory.create(rawString);
   }

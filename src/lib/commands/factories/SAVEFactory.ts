@@ -12,13 +12,13 @@ export default class SAVEFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SAVE") return Result.err("ERR not a SAVE command");
+    if (tokenList[0] !== "SAVE") return Result.err("(ERR) not a SAVE command");
 
     if (tokenList.length != 1)
-      return Result.err("ERR SAVE does not accept any arguments");
+      return Result.err("(ERR) SAVE does not accept any arguments");
 
     return Result.ok(new SAVECommand());
   }

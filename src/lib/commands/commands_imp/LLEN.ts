@@ -13,11 +13,9 @@ export default class LLENCommand extends Command {
 
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof CircularQueue))
-      return Result.err("ERR type error");
-    return Result.ok(res.value.length());
+    const value = store.get(this.key);
+    if (!(value instanceof CircularQueue)) return Result.err("(ERR) type error");
+    return Result.ok(value.length());
   }
 
   toString(): string {

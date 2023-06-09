@@ -12,6 +12,6 @@ export default class EventTimer {
   }
 
   getRemainingTime(): number {
-    return Date.now() - this.#timeoutTimestampInMs;
+    return this.#timeoutTimestampInMs - Date.now();
   }
 }

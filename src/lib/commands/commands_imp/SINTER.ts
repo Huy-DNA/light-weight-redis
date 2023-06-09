@@ -12,19 +12,15 @@ export default class SINTERCommand extends Command {
 
   execute(mediator: StoreMediator): Result<Array<string>> {
     const store = mediator.getStore();
-    const resList = this.keys.map((key) => store.get(key));
+    const valList = this.keys.map((key) => store.get(key));
 
-    if (
-      resList.some((res) => res.error !== null || !(res.value instanceof Set))
-    )
-      return Result.err("ERR type error");
+    if (valList.some((val) => val === undefined || !(val instanceof Set)))
+      return Result.err("(ERR) type error");
 
-    const setList = resList.map((res) => res.value) as Array<Set<string>>;
+    const res: Set<string> = new Set();
+    (valList as Set<string>[]).forEach((set) => set!.forEach(res.add));
 
-    const resSet: Set<string> = new Set();
-    for (let set of setList) [...set].forEach(resSet.add);
-
-    return Result.ok([...resSet]);
+    return Result.ok([...res]);
   }
 
   toString(): string {

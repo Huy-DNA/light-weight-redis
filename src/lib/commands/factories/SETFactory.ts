@@ -12,12 +12,12 @@ export default class SETFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SET") return Result.err("ERR not a SET command");
+    if (tokenList[0] !== "SET") return Result.err("(ERR) not a SET command");
 
-    if (tokenList.length != 3) return Result.err("ERR TTL expects 2 arguments");
+    if (tokenList.length != 3) return Result.err("(ERR) TTL expects 2 arguments");
 
     return Result.ok(new SETCommand(tokenList[1], tokenList[2]));
   }

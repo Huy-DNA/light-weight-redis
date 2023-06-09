@@ -12,11 +12,10 @@ export default class GETCommand extends Command {
 
   execute(mediator: StoreMediator): Result<string> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (res.value === null) return Result.ok<string>(null);
-    if (typeof res.value === "string") return Result.ok(res.value);
-    return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (value === undefined) return Result.err("(ERR) no value at this key");
+    if (typeof value === "string") return Result.ok(value);
+    return Result.err("(ERR) type error");
   }
 
   toString(): string {

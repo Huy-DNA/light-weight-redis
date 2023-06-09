@@ -15,22 +15,20 @@ export default class SREMCommand extends Command {
 
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (!(value instanceof Set)) return Result.err("(ERR) type error");
 
-    for (let value of this.values) {
-      res.value.delete(value);
+    for (let v of this.values) {
+      value.delete(v);
     }
 
-    return Result.ok(res.value.size);
+    return Result.ok(value.size);
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {
     const store = mediator.getStore();
-    const res = store.get(this.key);
-    if (res.error !== null) return Result.err(res.error);
-    if (!(res.value instanceof Set)) return Result.err("ERR type error");
+    const value = store.get(this.key);
+    if (!(value instanceof Set)) return Result.err("(ERR) type error");
 
     const addList = this.values.filter(store.has);
     return Result.ok(new SADDCommand(this.key, addList));

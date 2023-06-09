@@ -12,14 +12,14 @@ export default class SMEMBERSFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
     if (tokenList[0] !== "SMEMBERS")
-      return Result.err("ERR not a SMEMBERS command");
+      return Result.err("(ERR) not a SMEMBERS command");
 
     if (tokenList.length != 2)
-      return Result.err("ERR SMEMBERS expects 1 argument");
+      return Result.err("(ERR) SMEMBERS expects 1 argument");
 
     return Result.ok(new SMEMBERSCommand(tokenList[1]));
   }

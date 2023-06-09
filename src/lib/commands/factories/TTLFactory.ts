@@ -13,12 +13,12 @@ export default class TTLFactory extends CommandFactory {
     const matchRes = extractToken(rawString);
 
     if (matchRes.error !== null || matchRes.value === null)
-      return Result.err("ERR invalid arguments");
+      return Result.err("(ERR) invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "TTL") return Result.err("ERR not a TTL command");
+    if (tokenList[0] !== "TTL") return Result.err("(ERR) not a TTL command");
 
-    if (tokenList.length != 2) return Result.err("ERR TTL expects 1 argument");
+    if (tokenList.length != 2) return Result.err("(ERR) TTL expects 1 argument");
 
     return Result.ok(new TTLCommand(tokenList[1]));
   }

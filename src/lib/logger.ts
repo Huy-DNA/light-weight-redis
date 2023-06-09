@@ -17,7 +17,7 @@ export default class Logger {
   popEntry(): Result<LogEntry> {
     const entry = this.#log.pop();
     if (entry === undefined)
-      return Result.err("ERR no more log entries to pop");
+      return Result.err("(ERR) no more log entries to pop");
     return Result.ok(entry);
   }
 
@@ -40,13 +40,13 @@ export default class Logger {
   popCheckpoint(): Result<number> {
     const checkpoint = this.#checkpoints.pop();
     if (checkpoint === undefined)
-      return Result.err("ERR no more checkpoints to pop");
+      return Result.err("(ERR) no more checkpoints to pop");
     return Result.ok(checkpoint);
   }
 
   lastCheckpoint(): Result<number> {
     if (this.#checkpoints.length === 0)
-      return Result.err("ERR there are no checkpoints");
+      return Result.err("(ERR) there are no checkpoints");
     return Result.ok(this.#checkpoints[this.#checkpoints.length - 1]);
   }
 }

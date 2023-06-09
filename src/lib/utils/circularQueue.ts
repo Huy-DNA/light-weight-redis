@@ -1,15 +1,12 @@
-import Result from "../result";
-
 export default class CircularQueue<T> {
   #head: number = 0;
   #size: number = 0;
   #capacity: number = 1;
   #buffer: Array<T> = [];
 
-  shift(): Result<T> {
-    if (this.#size === 0)
-      return Result.err("ERR trying to shift an empty queue");
-    const res = Result.ok(this.#buffer[this.#head]);
+  shift(): T | undefined {
+    if (this.#size === 0) return undefined;
+    const res = this.#buffer[this.#head];
     this.#head = (this.#head + 1) % this.#capacity;
     this.#size -= 1;
     return res;
@@ -28,20 +25,16 @@ export default class CircularQueue<T> {
     this.#size += 1;
   }
 
-  pop(): Result<T> {
-    if (this.#size === 0) return Result.err("ERR trying to pop an empty queue");
-    const res = Result.ok(
-      this.#buffer[(this.#head + this.#size - 1) % this.#capacity]
-    );
+  pop(): T | undefined {
+    if (this.#size === 0) return undefined;
+    const res = this.#buffer[(this.#head + this.#size - 1) % this.#capacity];
     this.#size -= 1;
     return res;
   }
 
-  get(index: number): Result<T> {
-    if (index < 0 || index >= this.#size)
-      return Result.err("ERR index out of range");
+  get(index: number): T {
     const phyIndex = (index + this.#head) % this.#capacity;
-    return Result.ok(this.#buffer[phyIndex]);
+    return this.#buffer[phyIndex];
   }
 
   length(): number {
