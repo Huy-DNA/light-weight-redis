@@ -19,7 +19,7 @@ export default function extractToken(str: string): Result<Array<string>> {
 
 export function aposMerge(str: string): Result<string> {
   const tokenPattern =
-    /^\s*(?<first>[^\s]*)(?<second>(?:"[^"]*")|(?:'[^']*'))?\s*$/i;
+    /^\s*(?<first>[^\s"']*)(?<second>(?:"[^"]*")|(?:'[^']*'))?\s*$/i;
   const matched = str.match(tokenPattern);
   if (matched === null) return Result.err("Input is not a word");
   const groups = matched.groups;
