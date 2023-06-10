@@ -61,11 +61,15 @@ body {
 }
 
 #cli-input {
-  font: 16px "Montserrat";
+  font: inherit;
   flex: 1;
   margin-left: 5px;
   outline: none;
   border: none;
   background-color: transparent;
   color: #2b2b2b;
+}
+
+code {
+  white-space: pre-line;
 }

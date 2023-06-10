@@ -3,12 +3,12 @@ extends layout
 block content
   div#cli-screen
     div#cli-header
-      div.dot
-      div.dot
-      div.dot
-    div#cli-container
-      div#cli-output
-      div#cli-input-container
+      .dot
+      .dot
+      .dot
+    code#cli-container
+      code#cli-output
+      code#cli-input-container
         span LEDIS >
         input#cli-input(autofocus="true")
   script(src='/javascripts/cli.js')

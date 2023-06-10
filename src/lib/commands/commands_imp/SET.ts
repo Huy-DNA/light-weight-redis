@@ -14,13 +14,13 @@ export default class SETCommand extends Command {
     this.value = value;
   }
 
-  execute(mediator: StoreMediator): Result<string> {
+  execute(mediator: StoreMediator): Result<any> {
     const store = mediator.getStore();
     const value = store.get(this.key);
     if (value !== undefined && typeof value !== "string")
       return Result.err("Type error");
     store.set(this.key, this.value);
-    return Result.ok("OK");
+    return Result.mes("OK");
   }
 
   getRollbackCommand(mediator: StoreMediator): Result<Command> {

@@ -10,6 +10,8 @@ import {
   StoreMediator,
   Parser,
   commandMapping,
+  format,
+  Result,
 } from "./lib/api";
 
 const app = express();
@@ -35,21 +37,12 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/", (req, res, next) => {
-  console.log(req.body);
   const requestContent = req.body;
   const commandRes = parser.parse(requestContent);
-  let response = "";
-  if (commandRes.error !== null) response = commandRes.error;
+  if (commandRes.error !== null) res.send(format(commandRes));
   else if (commandRes.value === null)
-    response = "unknown error when parsing the command";
-  else {
-    const command = commandRes.value;
-    const commandOutputRes = storeMediator.acceptCommand(command);
-    if (commandOutputRes.error !== null) response = commandOutputRes.error;
-    else response = commandOutputRes.value.toString();
-  }
-
-  res.send(response);
+    res.send(format(Result.err("Unknown error")));
+  else res.send(format(storeMediator.acceptCommand(commandRes.value)));
 });
 
 // catch 404 and forward to error handler
