@@ -17,21 +17,22 @@ input.onkeydown = (event) => {
 
   output.appendChild(newPromptLine);
   event.preventDefault();
-  fetch("/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-      "Cache-Control": "no-cache",
-    },
-    body: input.value,
-  })
-    .then((res) => res.text())
-    .then((text) => {
-      const newResponseLine = document.createElement("div");
-      newResponseLine.textContent = `${text}\n`;
-      newResponseLine.className = "cli-output-response-line";
-      output.appendChild(newResponseLine);
-      input.scrollIntoView();
-    });
+  if (input.value.trim() !== "")
+    fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+        "Cache-Control": "no-cache",
+      },
+      body: input.value,
+    })
+      .then((res) => res.text())
+      .then((text) => {
+        const newResponseLine = document.createElement("div");
+        newResponseLine.textContent = `${text}\n`;
+        newResponseLine.className = "cli-output-response-line";
+        output.appendChild(newResponseLine);
+        input.scrollIntoView();
+      });
   input.value = "";
 };
