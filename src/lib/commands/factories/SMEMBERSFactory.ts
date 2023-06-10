@@ -15,7 +15,7 @@ export default class SMEMBERSFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SMEMBERS")
+    if (tokenList[0].toUpperCase() !== "SMEMBERS")
       return Result.err("Not a SMEMBERS command");
 
     if (tokenList.length != 2) return Result.err("SMEMBERS expects 1 argument");

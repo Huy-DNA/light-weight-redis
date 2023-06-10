@@ -10,7 +10,7 @@ export default class Parser {
   }
 
   parse(rawString: string): Result<Command> {
-    const commandName = rawString.trimStart().split(" ")[0];
+    const commandName = rawString.trimStart().split(" ")[0].toUpperCase();
     const commandFactory = this.#commandMapping.get(commandName);
 
     if (commandFactory === undefined) {

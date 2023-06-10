@@ -16,7 +16,7 @@ export default class TTLFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "TTL") return Result.err("Not a TTL command");
+    if (tokenList[0].toUpperCase() !== "TTL") return Result.err("Not a TTL command");
 
     if (tokenList.length != 2) return Result.err("TTL expects 1 argument");
 

@@ -15,7 +15,7 @@ export default class KEYSFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "KEYS") return Result.err("Not a KEYS command");
+    if (tokenList[0].toUpperCase() !== "KEYS") return Result.err("Not a KEYS command");
 
     if (tokenList.length != 1)
       return Result.err("KEYS does not accept any arguments");

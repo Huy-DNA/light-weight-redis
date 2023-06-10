@@ -15,7 +15,7 @@ export default class SETFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SET") return Result.err("Not a SET command");
+    if (tokenList[0].toUpperCase() !== "SET") return Result.err("Not a SET command");
 
     if (tokenList.length != 3) return Result.err("SET expects 2 arguments");
 

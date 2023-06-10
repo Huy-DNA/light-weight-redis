@@ -15,7 +15,7 @@ export default class GETFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "GET") return Result.err("Not a GET command");
+    if (tokenList[0].toUpperCase() !== "GET") return Result.err("Not a GET command");
 
     if (tokenList.length != 2) return Result.err("GET expects 1 argument");
 

@@ -15,7 +15,7 @@ export default class RPOPFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "RPOP") return Result.err("Not a RPOP command");
+    if (tokenList[0].toUpperCase() !== "RPOP") return Result.err("Not a RPOP command");
 
     if (tokenList.length != 2) return Result.err("RPOP expects 1 argument");
 

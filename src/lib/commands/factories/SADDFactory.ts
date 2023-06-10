@@ -15,7 +15,7 @@ export default class SADDFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0] !== "SADD") return Result.err("Not a SADD command");
+    if (tokenList[0].toUpperCase() !== "SADD") return Result.err("Not a SADD command");
 
     if (tokenList.length < 3)
       return Result.err("SADD expects at least 2 arguments");
