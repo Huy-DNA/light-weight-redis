@@ -15,7 +15,8 @@ export default class SAVEFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0].toUpperCase() !== "SAVE") return Result.err("Not a SAVE command");
+    if (tokenList[0].toUpperCase() !== "SAVE")
+      return Result.err("Not a SAVE command");
 
     if (tokenList.length != 1)
       return Result.err("SAVE does not accept any arguments");

@@ -15,7 +15,8 @@ export default class LRANGEFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0].toUpperCase() !== "LRANGE") return Result.err("Not a LRANGE command");
+    if (tokenList[0].toUpperCase() !== "LRANGE")
+      return Result.err("Not a LRANGE command");
 
     if (tokenList.length != 4) return Result.err("LRANGE expects 3 arguments");
 

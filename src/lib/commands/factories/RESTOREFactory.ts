@@ -15,7 +15,8 @@ export default class RESTOREFactory extends CommandFactory {
       return Result.err("Invalid arguments");
 
     const tokenList = matchRes.value;
-    if (tokenList[0].toUpperCase() !== "RESTORE") return Result.err("Not a RESTORE command");
+    if (tokenList[0].toUpperCase() !== "RESTORE")
+      return Result.err("Not a RESTORE command");
 
     if (tokenList.length != 1)
       return Result.err("RESTORE does not accept any arguments");

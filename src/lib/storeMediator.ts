@@ -86,18 +86,15 @@ export default class StoreMediator {
 
   restoreSnapshot(): Result<any> {
     const currentPoint = this.#logger.length() - 1;
-    let checkpointRes = this.#logger.popCheckpoint();
+    let checkpoint = this.#logger.popCheckpoint();
 
-    if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("No snapshot taken");
-    let checkpoint = checkpointRes.value;
+    if (checkpoint === undefined) return Result.err("No snapshot taken");
 
-    if (currentPoint === checkpoint)
-      checkpointRes = this.#logger.popCheckpoint();
+    if (currentPoint === checkpoint) {
+      checkpoint = this.#logger.popCheckpoint();
 
-    if (checkpointRes.error !== null || checkpointRes.value === null)
-      return Result.err("No snapshot taken");
-    checkpoint = checkpointRes.value;
+      if (checkpoint === undefined) return Result.err("No snapshot taken");
+    }
 
     while (this.#logger.length() > checkpoint + 1) {
       const entry = this.#logger.popEntry().value as LogEntry;
