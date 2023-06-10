@@ -1,8 +1,8 @@
 "use strict";
 
-const container = document.getElementById("cli-container");
-const input = document.getElementById("cli-input");
-const output = document.getElementById("cli-output");
+const container = document.getElementById("cli__screen");
+const input = document.getElementById("input__prompt");
+const output = document.getElementById("cli__output");
 
 container.onclick = () => {
   input.focus();
@@ -13,7 +13,7 @@ input.onkeydown = (event) => {
 
   const newPromptLine = document.createElement("div");
   newPromptLine.textContent = `LEDIS > ${input.value}`;
-  newPromptLine.className = "cli-output-prompt-line";
+  newPromptLine.className = "cli__output__line--prompt";
 
   output.appendChild(newPromptLine);
   event.preventDefault();
@@ -30,7 +30,7 @@ input.onkeydown = (event) => {
       .then((text) => {
         const newResponseLine = document.createElement("div");
         newResponseLine.textContent = `${text}\n`;
-        newResponseLine.className = "cli-output-response-line";
+        newResponseLine.className = "cli__output__line--response";
         output.appendChild(newResponseLine);
         input.scrollIntoView();
       });

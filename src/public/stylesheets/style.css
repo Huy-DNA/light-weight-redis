@@ -7,7 +7,7 @@ body {
   box-sizing: border-box;
 }
 
-#cli-screen {
+#cli {
   display: flex;
   flex-direction: column;
   width: max(60vw, 300px);
@@ -20,7 +20,7 @@ body {
   background-color: white;
 }
 
-#cli-header {
+#cli__header {
   padding: 10px;
   background-color: #dddddd;
   display: flex;
@@ -28,6 +28,7 @@ body {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .dot {
   display: block;
   width: 10px;
@@ -37,30 +38,30 @@ body {
   margin: 5px;
 }
 
-#cli-container {
+#cli__screen {
   height: 100%;
   padding: 10px;
   background-color: white;
   overflow: auto;
 }
 
-.cli-output-response-line {
+.cli__output__line--response {
   color: blue;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.cli-output-prompt-line {
+.cli__output__line__prompt {
   color: #2b2b2b;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-#cli-input-container {
+#cli__input {
   display: flex;
 }
 
-#cli-input {
+#input__prompt {
   font: inherit;
   flex: 1;
   margin-left: 5px;

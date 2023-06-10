@@ -1,14 +1,14 @@
 extends layout
 
 block content
-  div#cli-screen
-    div#cli-header
+  div#cli
+    div#cli__header
       .dot
       .dot
       .dot
-    code#cli-container
-      code#cli-output
-      code#cli-input-container
+    code#cli__screen
+      code#cli__output
+      code#cli__input
         span LEDIS >
-        input#cli-input(autofocus="true" spellcheck="false")
+        input#input__prompt(autofocus="true" spellcheck="false")
   script(src='/javascripts/cli.js')
