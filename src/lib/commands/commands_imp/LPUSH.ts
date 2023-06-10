@@ -29,6 +29,7 @@ export default class LPUSHCommand extends Command {
       return Result.ok(this.values.length);
     }
 
+    mediator.clearTimeout(this.key);
     for (let v of this.values) {
       value.unshift(v);
     }

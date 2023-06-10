@@ -17,6 +17,7 @@ export default class DELCommand extends Command {
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
     if (!store.has(this.key)) return Result.err("No value at this key");
+    mediator.clearTimeout(this.key);
     store.delete(this.key);
     return Result.ok(1);
   }

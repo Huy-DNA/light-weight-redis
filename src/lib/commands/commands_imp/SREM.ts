@@ -18,6 +18,7 @@ export default class SREMCommand extends Command {
     const value = store.get(this.key);
     if (!(value instanceof Set)) return Result.err("Type error");
 
+    mediator.clearTimeout(this.key);
     for (let v of this.values) {
       value.delete(v);
     }

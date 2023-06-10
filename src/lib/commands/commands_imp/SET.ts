@@ -19,6 +19,7 @@ export default class SETCommand extends Command {
     const value = store.get(this.key);
     if (value !== undefined && typeof value !== "string")
       return Result.err("Type error");
+    mediator.clearTimeout(this.key);
     store.set(this.key, this.value);
     return Result.mes("OK");
   }

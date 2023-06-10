@@ -19,6 +19,7 @@ export default class RPOPCommand extends Command {
     if (!(value instanceof CircularQueue)) return Result.err("Type error");
     const res = value.pop();
     if (res === undefined) return Result.err("Popping an empty list");
+    mediator.clearTimeout(this.key);
     return Result.ok(res);
   }
 

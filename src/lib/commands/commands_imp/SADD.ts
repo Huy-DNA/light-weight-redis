@@ -17,6 +17,7 @@ export default class SADDCommand extends Command {
   execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
     const value = store.get(this.key);
+    
     if (value === undefined) {
       const set = new Set<string>();
       for (let v of this.values) set.add(v);
@@ -27,6 +28,7 @@ export default class SADDCommand extends Command {
 
     if (!(value instanceof Set)) return Result.err("Type error");
 
+    mediator.clearTimeout(this.key);
     for (let v of this.values) {
       value.add(v);
     }

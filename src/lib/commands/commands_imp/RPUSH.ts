@@ -20,7 +20,8 @@ export default class RPUSHCommand extends Command {
     const value = store.get(this.key);
     if (value !== undefined && !(value instanceof CircularQueue))
       return Result.err("Type error");
-
+    
+    mediator.clearTimeout(this.key);
     if (value === undefined) {
       const list = new CircularQueue<string>();
       for (let value of this.values) list.push(value);

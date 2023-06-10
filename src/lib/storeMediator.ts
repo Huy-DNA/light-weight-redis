@@ -69,11 +69,22 @@ export default class StoreMediator {
     return timer === undefined ? undefined : timer.getRemainingTime();
   }
 
+  clearTimeout(key: string) {
+    const timeout = this.#timerStore.get(key);
+    if (timeout !== undefined) timeout.clear();
+    this.#timerStore.delete(key);
+  }
+
   acceptCommand(command: Command): Result<any> {
     const rollbackCommandRes = command.getRollbackCommand(this);
     const res = command.execute(this);
-    if (rollbackCommandRes.error !== null || rollbackCommandRes.value === null)
+    if (
+      res.error !== null ||
+      rollbackCommandRes.error !== null ||
+      rollbackCommandRes.value === null
+    )
       return res;
+
     this.#logger.pushEntry(new LogEntry(command, rollbackCommandRes.value));
     return res;
   }
