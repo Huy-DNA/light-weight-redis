@@ -19,6 +19,8 @@ export default class EXPIREFactory extends CommandFactory {
       return Result.err("Not an EXPIRE command");
     if (tokenList.length != 3) return Result.err("EXPIRE expects 2 arguments");
 
+    if (Number(tokenList[2]) <= 0)
+      return Result.err("EXPIRE expects the second argument to be positive");
     return Result.ok(new EXPIRECommand(tokenList[1], Number(tokenList[2])));
   }
 }

@@ -13,11 +13,11 @@ export default class EXPIRECommand extends Command {
     this.seconds = seconds;
   }
 
-  execute(mediator: StoreMediator): Result<string> {
+  execute(mediator: StoreMediator): Result<number> {
     const store = mediator.getStore();
     if (!store.has(this.key)) return Result.err("No value at this key");
     mediator.setTimeout(this.key, this.seconds * 1000);
-    return Result.mes("OK");
+    return Result.ok(this.seconds);
   }
 
   toString(): string {
