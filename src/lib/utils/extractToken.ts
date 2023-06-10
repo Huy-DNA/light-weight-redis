@@ -4,9 +4,9 @@ export default function extractToken(str: string): Result<Array<string>> {
   //Negative lookbehind used - which the V8-engine supports but some may not
   //However, this is acceptable as it runs on the server-side.
   const tokenPattern =
-    /(?:(?!<[^\s])(?:[^\s"'\\]|(\\(?!["']))|(\\")|(\\'))*((?:"([^"\\]|(\\(?!["']))|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\")|(\\'))*'))?(?![^\s]))/gi;
+    /(?:(?!<[^\s])(?:[^\s"'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*((?:"([^"\\]|(\\\\)|(\\(?!["']))|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*'))?(?![^\s]))/gi;
   const tokenStreamPattern =
-    /^(\s*(?:(?!<[^\s])(?:[^\s"'\\]|(\\(?!["']))|(\\")|(\\'))*((?:"([^"\\]|(\\(?!["']))|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\")|(\\'))*'))?(?![^\s]))\s*)*$/i;
+    /^(\s*(?:(?!<[^\s])(?:[^\s"'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*((?:"([^"\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*'))?(?![^\s]))\s*)*$/i;
 
   if (!str.match(tokenStreamPattern))
     return Result.err("Input is not a valid stream of token");
@@ -19,7 +19,7 @@ export default function extractToken(str: string): Result<Array<string>> {
 
 export function aposMerge(str: string): Result<string> {
   const tokenPattern =
-    /^\s*(?<first>([^\s"'\\]|(\\(?!["']))|(\\")|(\\'))*)(?<second>(?:"([^"\\]|(\\(?!["']))|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\")|(\\'))*'))?\s*$/i;
+    /^\s*(?<first>([^\s"'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*)(?<second>(?:"([^"\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*")|(?:'([^'\\]|(\\(?!["']))|(\\\\)|(\\")|(\\'))*'))?\s*$/i;
   const matched = str.match(tokenPattern);
   if (matched === null) return Result.err("Input is not a word");
   const groups = matched.groups;
