@@ -6,7 +6,7 @@
     "test": "jest --detectOpenHandles",
     "start": "node ./dist/bin/www.js",
     "build": "npx tsc && shx cp -r ./src/public ./src/views ./dist",
-    "dev": "shx cp -r ./src/public ./src/views ./dist && concurrently \"npx tsc --watch\" \"nodemon --ignore log.json -q dist/index.js\"",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon --ignore log.json -q dist/index.js\" && shx cp -r ./src/public ./src/views ./dist",
     "lint:js": "eslint --ext \".ts\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
