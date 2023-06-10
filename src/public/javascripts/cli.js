@@ -34,5 +34,6 @@ input.onkeydown = (event) => {
         output.appendChild(newResponseLine);
         input.scrollIntoView();
       });
+  input.scrollIntoView();
   input.value = "";
 };
