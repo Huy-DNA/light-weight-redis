@@ -40,14 +40,30 @@ Each time a command that mutates the store is executed, it should be logged into
 
 Effectively, a chain of commands is logged. Each time you execute a `SAVE` command, a checkpoint is taken and the log is persisted.
 
-## Commands
+## Advantages
 
-### String
+This design's aim is to allow for adding more commands with ease.
+
+More commands can be added by:
+
+- Create your `Command` subclass in a file stored in `./src/lib/commands/commands_imp/`.
+- Create your `CommandFactory` subclass in a file stored in `./src/lib/commands/factories/` that's capable of parsing a raw string to return your `Command` subclass. An utility function named `extractToken` stored in `./src/lib/utils/extractToken.ts` can be used to easen the tokenizing step.
+- Add an entry corresponding to your command in `./src/lib/commandMapping.ts`.
+
+## Flaws
+
+Commands can interfere with each other in an unexpected way. For example, if a mutation command is to be added, the command should manually clear the timeout on the key(s) it's about to modify.
+
+## Interface
+
+### Commands
+
+#### String
 
 - `GET key`: Return a **string** value at `key`. If `key` does not exist or the value that resides there is not a **string**, return an error.
 - `SET key value`: Set the **string** value at `key` to `value`. If the value that resides at `key` is not a **string**, return an error.
 
-### List
+#### List
 
 - `LLEN key`: Return the length of the **list** at `key`. If `key` does not exist or the value that resides there is not a **list**, return an error.
 - `RPUSH key value1 [value2...]`: Append one or more values to the list, create list if not exists, return length of list after operation. If a value exists but is not a **list**, return an errorr.
@@ -55,29 +71,21 @@ Effectively, a chain of commands is logged. Each time you execute a `SAVE` comma
 - `RPOP key`: Remove and return the last item of the list. If `key` does not exist or the value that resides there is not a **list**, return an error.
 - `LRANGE key start stop`: Return a range of element from the list (zero-based, inclusive of `start` and `stop`), `start` and `stop` are non-negative integers. If `key` does not exist or the value that resides there is not a **list**, return an error.
 
-### Set
+#### Set
 
 - `SADD key value1 [value2...]`: Add values to set stored at key. If a **set** doesn't exist at `key`, create one first. If a **set** exists but is not a **set**, return an error.
 - `SREM key value1 [value2...]`: Remove values from set. If `key` does not exist or the value that resides there is not a **set**, return an error.
 - `SMEMBERS key`: Return array of all members of set. If `key` does not exist or the value that resides there is not a **set**, return an error.
 - `SINTER [key1] [key2] [key3] ...`: Set intersection among all set stored in specified keys. Return array of members of the result set. If `key` does not exist or the value that resides there is not a **set**, return an error.
 
-## Data Expiration
+#### Data Expiration
 
 - `KEYS`: List all available keys.
 - `DEL key`: Delete the value stored at `key`. If `key` does not exist, return an error.
 - `EXPIRE key seconds`: Set a timeout on `key`, `seconds` is a positive integer (by default a key has no expiration). Return the number of `seconds` if the timeout is set. If `key` does not exist, return an error.
 - `TTL key`: Query the timeout of a `key`. If `key` does not exist, return an error.
 
-## Snapshot
+#### Snapshot
 
 - `SAVE`: Save current state in a snapshot. If the current state is already saved, this command has no effect.
 - `RESTORE`: Restore from the last snapshot.
-
-## How to extend the system?
-
-More commands can be added by:
-
-- Create your `Command` subclass in a file stored in `./src/lib/commands/commands_imp/`.
-- Create your `CommandFactory` subclass in a file stored in `./src/lib/commands/factories/` that's capable of parsing a raw string to return your `Command` subclass. An utility function named `extractToken` stored in `./src/lib/utils/extractToken.ts` can be used to easen the tokenizing step.
-- Add an entry corresponding to your command in `./src/lib/commandMapping.ts`.
