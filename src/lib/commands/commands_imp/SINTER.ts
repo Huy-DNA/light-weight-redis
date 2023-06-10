@@ -14,13 +14,18 @@ export default class SINTERCommand extends Command {
     const store = mediator.getStore();
     const valList = this.keys.map((key) => store.get(key));
 
-    if (valList.some((val) => val === undefined || !(val instanceof Set)))
+    if (valList.some((val) => val === undefined))
+      return Result.err("Some keys do not have value");
+
+    if (valList.some((val) => !(val instanceof Set)))
       return Result.err("Type error");
 
-    const res: Set<string> = new Set();
-    (valList as Set<string>[]).forEach((set) =>
-      set!.forEach((e) => res.add(e))
-    );
+    let res: Set<string> = valList[0] as Set<string>;
+    const rest = valList.slice(1);
+
+    for (let set of rest) {
+      res = new Set([...res].filter((e) => (set as Set<string>).has(e)));
+    }
 
     return Result.ok([...res]);
   }
