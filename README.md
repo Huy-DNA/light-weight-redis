@@ -1,6 +1,6 @@
 # light-weight-redis (Ledis)
 
-A simple & light-weight simulation of Redis, which is part of a company assignment. Deployed at https://spring-bud-betta-veil.cyclic.app/.
+A simple & light-weight simulation of Redis, which is part of a company assignment. Deployed at https://light-weight-redis-production.up.railway.app/.
 
 This README file is meant to explain the components of the system and how to extend it.
 
