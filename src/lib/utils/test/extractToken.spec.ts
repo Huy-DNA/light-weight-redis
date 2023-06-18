@@ -11,9 +11,9 @@ describe("Test aposMerge", () => {
   });
 
   test('Strings with " should be removed the most outer pair of "', () => {
-    const input = ['"1234"', ' 1234"ad"', ' 12344" ad"'];
+    const input = ['"1234"', ' 1234"ad"', ' 12344" ad"', '""'];
     const output = input.map(aposMerge).map((result) => result.value);
-    const expected = ["1234", "1234ad", "12344 ad"];
+    const expected = ["1234", "1234ad", "12344 ad", ""];
 
     output.forEach((o, id) => expect(o).toEqual(expected[id]));
   });

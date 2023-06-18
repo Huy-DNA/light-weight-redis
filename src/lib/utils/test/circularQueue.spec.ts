@@ -19,9 +19,9 @@ describe("Test CircularQueue", () => {
     for (let i of l) q.unshift(i);
     expect(q.length()).toEqual(l.length);
     for (let i = 0; i < q.length(); ++i)
-      expect(q.get(i).value).toEqual(l[l.length - 1 - i]);
+      expect(q.get(i)).toEqual(l[l.length - 1 - i]);
     for (let i = 0; i < l.length; ++i)
-      expect(q.shift().value).toEqual(l[l.length - 1 - i]);
+      expect(q.shift()).toEqual(l[l.length - 1 - i]);
     expect(q.length()).toEqual(0);
   });
 
@@ -30,9 +30,9 @@ describe("Test CircularQueue", () => {
     const l = [1, 2, 3, 4, 5, 6];
     for (let i of l) q.push(i);
     expect(q.length()).toEqual(l.length);
-    for (let i = 0; i < q.length(); ++i) expect(q.get(i).value).toEqual(l[i]);
+    for (let i = 0; i < q.length(); ++i) expect(q.get(i)).toEqual(l[i]);
     for (let i = 0; i < l.length; ++i)
-      expect(q.pop().value).toEqual(l[l.length - 1 - i]);
+      expect(q.pop()).toEqual(l[l.length - 1 - i]);
     expect(q.length()).toEqual(0);
   });
 });
