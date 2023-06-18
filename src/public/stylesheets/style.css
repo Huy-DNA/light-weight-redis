@@ -10,7 +10,7 @@ body {
 #cli {
   display: flex;
   flex-direction: column;
-  width: max(60vw, 200px);
+  width: max(60vw, 150px);
   height: 400px;
   margin-left: auto;
   margin-right: auto;
