@@ -12,8 +12,8 @@ export default function extractToken(str: string): Result<Array<string>> {
     return Result.err("Input is not a valid stream of token");
   return Result.ok(
     [...str.matchAll(tokenPattern)]
+      .filter((tuple) => tuple[0] != "")
       .map((tuple) => aposMerge(tuple[0]).value as string)
-      .filter((str) => str !== "")
   );
 }
 
